@@ -14,8 +14,9 @@ export default function Navbar() {
             <NavLink to="/">
               <Typography
                 color="white"
-                variant="h4"
+                variant="h3"
                 component="div"
+                sx={{ fontFamily: "Helvetica", fontWeight: "bold" }}
               >
                 Cinema
               </Typography>

@@ -95,7 +95,7 @@ export default function AddMovie() {
                 Add a new Movie
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <TextField
                 id="outlined-basic"
                 label="Movie Name"
@@ -103,7 +103,7 @@ export default function AddMovie() {
                 onChange={handleMovieNameChange}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <TextField
                 id="outlined-basic"
                 label="Total views"
@@ -111,7 +111,7 @@ export default function AddMovie() {
                 onChange={handleViewsChange}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <TextField
                 id="outlined-basic"
                 label="Realease Date"

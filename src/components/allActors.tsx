@@ -8,24 +8,49 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForeverTwoTone";
+import axios from "axios";
+import { useSnackbar } from "notistack";
 
-export default function AllActors(data: any) {
-  console.log("aaaaaaaaaaaaaaaa", data);
+export default function AllActors(props: any) {
+  
+  const { enqueueSnackbar } = useSnackbar();
 
-  if (data.loading) {
+  const deleteActor = (actorId: any, name:string) => {
+    axios.delete(`https://localhost:7114/actor/${actorId}`)
+    .then((res)=>{
+      if(res.status === 200){
+        enqueueSnackbar(`${name} has been deleted successfully!`, { variant: 'success' })
+        props.loadAllActors();
+      }
+      else{
+        enqueueSnackbar("Error deleting the movie!", { variant: 'error' })
+      }
+    })
+  };
+
+  if (props.loading) {
     return (
-      <div style={{width:"100%", height:"300px", alignItems:"center" , justifyContent:"center", display: "flex" }}>
+      <div
+        style={{
+          width: "100%",
+          height: "300px",
+          alignItems: "center",
+          justifyContent: "center",
+          display: "flex",
+        }}
+      >
         <CircularProgress color="success" />
       </div>
     );
   }
 
   return (
-    data &&
-    data.actors.length > 0 &&
-    data.actors.map((actor: any) => {
+    props &&
+    props.actors.length > 0 &&
+    props.actors.map((actor: any) => {
       return (
-        <div key={actor.firstName}>
+        <div key={actor.actorId}>
           <Card sx={{ minWidth: 275, background: "gainsboro", margin: "20px" }}>
             <CardContent>
               <Typography variant="h5" component="div">
@@ -39,7 +64,22 @@ export default function AllActors(data: any) {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Learn More</Button>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Button size="medium">Learn More</Button>
+                <Button
+                  size="large"
+                  color="error"
+                  onClick={() => deleteActor(actor.actorId, actor.firstName)}
+                >
+                  <DeleteForeverIcon />
+                </Button>
+              </div>
             </CardActions>
           </Card>
         </div>

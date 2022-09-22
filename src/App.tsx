@@ -15,6 +15,7 @@ import Register from "./components/register";
 import Actor from "./components/actor";
 import Movie from "./components/movie";
 import Home from "./components/home";
+import MoviePage from "./components/moviePage";
 
 function App() {
   const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/actor" element={<Actor />} />
           <Route path="/movie" element={<Movie />} />
+          <Route path="/movie/:id" element={<MoviePage/> }/>
           {/* <Route path='/' element={<PermanentDrawerLeft/>}/> */}
           {/* <PermanentDrawerLeft /> */}
         </Routes>

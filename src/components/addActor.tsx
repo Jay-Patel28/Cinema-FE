@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 
-export default function AddActor() {
+export default function AddActor(props:any) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [wealth, setWealth] = useState(0);
@@ -36,7 +36,8 @@ export default function AddActor() {
       })
       .then((res) => {
         if (res.status === 200) {
-          enqueueSnackbar("Actor Added successfully!", { variant: 'success' });
+          props.loadAllActors();
+          enqueueSnackbar("Actor Added successfully!", { variant: "success" });
           console.log("Success");
         }
         return res;
@@ -44,7 +45,7 @@ export default function AddActor() {
       .catch((err) => {
         console.log("err: ", err);
         if (err.response.status !== 200) {
-          enqueueSnackbar("Error!", { variant: 'error' });
+          enqueueSnackbar("Error!", { variant: "error" });
         }
       });
   };
@@ -90,7 +91,6 @@ export default function AddActor() {
                 Add
               </Button>
             </Grid>
-
           </Grid>
         </div>
       </Box>

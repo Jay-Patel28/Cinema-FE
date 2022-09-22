@@ -11,6 +11,7 @@ export default function Actor() {
   const [isLoading, setLoading] = useState(false);
 
   const loadAllActors = async () => {
+    console.log('loadAllActors: ');
     setLoading(true);
     setAllActors({});
     axios.get("https://localhost:7114/actors").then((res) => {
@@ -19,7 +20,7 @@ export default function Actor() {
       setTimeout(() => {
         setAllActors(res.data);
         setLoading(false);
-      }, 3000);
+      }, 100);
     });
   };
 
@@ -43,11 +44,11 @@ export default function Actor() {
         </Button>
         {!(allActors == null) && (
           <Grid container xs={12}>
-            <AllActors actors={allActors} loading={isLoading} />
+            <AllActors actors={allActors} loading={isLoading} loadAllActors={loadAllActors}/>
           </Grid>
         )}
       </Box>
-      <AddActor />
+      <AddActor loadAllActors={loadAllActors}/>
       <DeleteActor />
     </>
   );

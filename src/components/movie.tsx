@@ -6,13 +6,15 @@ import AddMovie from "./addMovie";
 import AllMovies from "./allMovies";
 import DeleteActor from "./deleteActor";
 import DeleteMovie from "./deleteMovie";
+import MovieSearch from "./movieSearch";
 
 
 export default function Actor() {
   const [allMovies, setAllMovies] = useState({});
   const [isLoading, setLoading] = useState(false);
 
-  const loadAllActors = async () => {
+  const loadAllMovies = async () => {
+    console.log('loadAllMovies: dfddddddddddddddddddddddddddddddddddddd');
     setLoading(true);
     setAllMovies({});
     axios.get("https://localhost:7114/movies").then((res) => {
@@ -21,7 +23,7 @@ export default function Actor() {
       setTimeout(() => {
         setAllMovies(res.data);
         setLoading(false);
-      }, 3000);
+      }, 500);
     });
   };
 
@@ -36,21 +38,24 @@ export default function Actor() {
         }}
       >
         {" "}
+        <MovieSearch/>
         <Button
-          sx={{ margin: "20px" }}
-          onClick={loadAllActors}
-          variant="contained"
+          sx={{ marginLeft: "50px" }}
+          onClick={loadAllMovies}
+          variant="outlined"
         >
-          Load All Movies
+          Or load All Movies
         </Button>
         {!(allMovies == null) && (
-          <Grid container xs={12}>
-            <AllMovies movies={allMovies} loading={isLoading} />
+          <Grid container xs={16} sx={{ margin: "30px" }}>
+            <AllMovies movies={allMovies} loading={isLoading} loadAllMovies={loadAllMovies}/>
           </Grid>
         )}
-      </Box>
-      <AddMovie />
+        <AddMovie />
       <DeleteMovie />
+       
+      
+      </Box>
     </>
   );
 }

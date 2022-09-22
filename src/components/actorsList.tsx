@@ -5,14 +5,14 @@ import ProgressBar from "./Progressbar";
 import movie from "./movie";
 export default function ActorsList(props: any) {
   const [allActors, setAllActors] = useState([]);
-  const [inputList, setInputList] = useState([{}]);
+  const [inputList, setInputList] = useState<Array<string>>([]);
 
   useEffect(() => {
     axios.get("https://localhost:7114/actors").then((res) => {
       setTimeout(() => {
         setAllActors(res.data);
         console.log("res.data: ", res.data);
-      }, 20);
+      }, 200);
     });
   }, []);
 
