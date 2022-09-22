@@ -1,7 +1,7 @@
-import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import { useSnackbar } from "notistack";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import { useSnackbar } from "notistack";
+import { useState } from "react";
 import ActorsList from "./actorsList";
 export default function AddMovie() {
   const [movieName, setMovieName] = useState("");

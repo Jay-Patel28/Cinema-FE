@@ -1,21 +1,17 @@
-import React from "react";
+import { SnackbarProvider } from "notistack";
 import "./App.css";
 import Navbar from "./components/navbar";
-import { SnackbarProvider } from "notistack";
 
 import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
+  QueryClient
 } from "@tanstack/react-query";
-import PermanentDrawerLeft from "./components/sidemenu";
-import { BrowserRouter, RouterProvider, Routes, Route } from "react-router-dom";
-import Login from "./components/login";
-import Register from "./components/register";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Actor from "./components/actor";
-import Movie from "./components/movie";
 import Home from "./components/home";
+import Login from "./components/login";
+import Movie from "./components/movie";
 import MoviePage from "./components/moviePage";
+import Register from "./components/register";
 
 function App() {
   const queryClient = new QueryClient();

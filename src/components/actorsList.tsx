@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { Box, Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import ProgressBar from "./Progressbar";
-import movie from "./movie";
 export default function ActorsList(props: any) {
   const [allActors, setAllActors] = useState([]);
   const [inputList, setInputList] = useState<Array<string>>([]);

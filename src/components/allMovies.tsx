@@ -1,18 +1,13 @@
+import DeleteForeverIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import {
-  Box,
   Button,
   Card,
   CardActions,
-  CardContent,
-  CardMedia,
-  CircularProgress,
-  Grid,
-  Typography,
+  CardContent, CircularProgress, Typography
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "notistack";
 import axios from "axios";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForeverTwoTone";
+import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
 export default function AllMovies(props: any) {
   const navigate = useNavigate();
@@ -22,9 +17,8 @@ export default function AllMovies(props: any) {
     axios
       .delete(`https://localhost:7114/movie/${movieId}`)
       .then((res) => {
-        console.log("res.status: ", res);
-        if (res.status === 200) {
-          props.loadAllmovies();
+        if (res.status === 200 || res.status === 204) {
+
           enqueueSnackbar(`${name} has been deleted successfully!`, {
             variant: "success",
           });
@@ -32,10 +26,15 @@ export default function AllMovies(props: any) {
           enqueueSnackbar("Error deleting the movie!", { variant: "error" });
         }
       })
-      .catch((err) => {
+      .catch((err:any) => {
+
         enqueueSnackbar(`${err.response.data.errorMessage}`, {
           variant: "error",
-        });
+         });
+      })
+      .finally(()=>{
+        props.loadAllmovies();
+
       });
   };
 

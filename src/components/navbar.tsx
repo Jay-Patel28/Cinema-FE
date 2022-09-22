@@ -1,10 +1,6 @@
-import * as React from "react";
-import { useState } from "react";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
-import "../index.css";
-import Login from "./login";
-import Register from "./register";
 import { NavLink } from "react-router-dom";
+import "../index.css";
 export default function Navbar() {
   return (
     <>

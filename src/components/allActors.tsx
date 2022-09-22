@@ -1,14 +1,10 @@
+import DeleteForeverIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import {
   Button,
   Card,
   CardActions,
-  CardContent,
-  CardMedia,
-  CircularProgress,
-  Grid,
-  Typography,
+  CardContent, CircularProgress, Typography
 } from "@mui/material";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 

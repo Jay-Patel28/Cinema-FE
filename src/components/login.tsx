@@ -1,27 +1,12 @@
-import * as React from "react";
-import { useState } from "react";
-import {NavLink} from 'react-router-dom'
 import {
-  Alert,
-  AppBar,
-  Box,
-  Button,
+  Alert, Button,
   Dialog,
   DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  TextField,
-  Toolbar,
-  Typography,
+  DialogContent, DialogTitle, TextField
 } from "@mui/material";
 import axios from "axios";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { useState } from "react";
+import { NavLink } from 'react-router-dom';
 
 export default function Login() {
   const handleClickOpen = () => {

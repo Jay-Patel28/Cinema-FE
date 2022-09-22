@@ -1,7 +1,7 @@
-import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 
 export default function AddActor(props:any) {
   const [firstName, setFirstName] = useState("");
@@ -9,7 +9,7 @@ export default function AddActor(props:any) {
   const [wealth, setWealth] = useState(0);
 
   const { enqueueSnackbar } = useSnackbar();
-
+ 
   const handleFirstNameChange = (e: any) => {
     setFirstName(e.target.value);
   };

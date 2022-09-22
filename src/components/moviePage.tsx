@@ -1,16 +1,13 @@
 import {
   Box,
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
+  Card, CardContent,
+  Typography
 } from "@mui/material";
 import axios from "axios";
+import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSnackbar } from "notistack";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForeverTwoTone";
 
 export default function MoviePage() {
   let Movie = useParams();

@@ -1,31 +1,16 @@
-import * as React from "react";
-import { useState } from "react";
 import {
-  Alert,
-  AppBar,
-  Box,
-  Button,
+  Alert, Button,
   Dialog,
   DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  TextField,
-  Toolbar,
-  Typography,
+  DialogContent, DialogTitle, TextField
 } from "@mui/material";
 import axios from "axios";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
-import {NavLink} from 'react-router-dom'
+import { useState } from "react";
+import { NavLink } from 'react-router-dom';
 export default function Register() {
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
   const [data, setData] = useState({});
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState("");

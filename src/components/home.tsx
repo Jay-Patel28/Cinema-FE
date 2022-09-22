@@ -1,20 +1,7 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CircularProgress,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { borderRadius } from "@mui/system";
-import { useState } from "react";
-import "../../src/App.css";
 import axios from "axios";
-import ProgressBar from "./Progressbar";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../../src/App.css";
 import MovieSearch from "./movieSearch";
 
 export default function Home() {

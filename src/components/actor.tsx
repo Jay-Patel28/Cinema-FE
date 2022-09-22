@@ -4,7 +4,6 @@ import { useState } from "react";
 import AddActor from "./addActor";
 import AllActors from "./allActors";
 import DeleteActor from "./deleteActor";
-import Navbar from "./navbar";
 
 export default function Actor() {
   const [allActors, setAllActors] = useState({});
@@ -20,7 +19,7 @@ export default function Actor() {
       setTimeout(() => {
         setAllActors(res.data);
         setLoading(false);
-      }, 100);
+      }, 500);
     });
   };
 

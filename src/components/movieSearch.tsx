@@ -51,7 +51,7 @@ export default function MovieSearch() {
       noValidate
       autoComplete="off"
     >
-      <Typography variant="h3">
+      <Typography variant="h4" color="darkred">
         Start Searching for your favourite Shows {"   "}
         {isLoading && <CircularProgress color="inherit" />}
       </Typography>
