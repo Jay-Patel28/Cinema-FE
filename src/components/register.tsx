@@ -101,7 +101,8 @@ export default function Register() {
                   label="Username"
                   type="text"
                   fullWidth
-                  variant="standard"
+                  variant="outlined"
+                  required
                   onChange={handleUsernameChange}
                 />
                 <TextField
@@ -111,7 +112,8 @@ export default function Register() {
                   label="Email"
                   type="email"
                   fullWidth
-                  variant="standard"
+                  variant="outlined"
+                  required
                   onChange={handleEmailChange}
                 />
                 <TextField
@@ -120,7 +122,8 @@ export default function Register() {
                   label="Password"
                   type="password"
                   fullWidth
-                  variant="standard"
+                  variant="outlined"
+                  required
                   onChange={handlePassChange}
                 />
               </DialogContent>

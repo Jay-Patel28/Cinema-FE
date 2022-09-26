@@ -1,17 +1,26 @@
 import {
-  Alert, Button,
+  Alert,
+  Button,
   Dialog,
   DialogActions,
-  DialogContent, DialogTitle, TextField
+  DialogContent,
+  DialogTitle,
+  TextField,
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { NavLink } from 'react-router-dom';
-
+import { useNavigate, NavLink, useLocation } from "react-router-dom";
+import { useSnackbar } from "notistack";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import LoginIcon from '@mui/icons-material/Login';
 export default function Login() {
+  const { enqueueSnackbar } = useSnackbar();
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  console.log("redirectPage: ", state);
   const [data, setData] = useState({});
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState("");
@@ -34,7 +43,7 @@ export default function Login() {
     setPass(e.target.value);
     console.log(pass);
   };
-  
+
   const handleSubmit = async () => {
     setData({
       username: email,
@@ -58,17 +67,19 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
+        localStorage.setItem("jwt", res.data.token.toString());
         if (res.status === 200) {
           setLoggedIn(true);
-        } 
-        return res;
-    })
-    .catch((err) => {
-        console.log('err: ', err);
-     if (err.response.status === 401) {
+        }
+        enqueueSnackbar("You are logged in!", { variant: "success" });
+        navigate(state ? state : "/");
+      })
+      .catch((err: any) => {
+        console.log("err: ", err);
+        if (err.response.status === 401) {
           setUnauthorized(true);
-        }}
-        )
+        }
+      });
   };
 
   // const query = useQuery(['loginProc', data], loginRequest);
@@ -77,7 +88,11 @@ export default function Login() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <Dialog open={open} onClose={handleClose} sx={{minWidth:"300px", minHeight:"300px"}}>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          sx={{ minWidth: "300px", minHeight: "300px" }}
+        >
           {!isLoggedIn && (
             <div>
               {" "}
@@ -90,42 +105,68 @@ export default function Login() {
                   label="Username"
                   type="text"
                   fullWidth
-                  variant="standard"
+                  required
+                  variant="outlined"
                   onChange={handleEmailChange}
                 />
                 <TextField
                   margin="dense"
+                  required
                   id="pass"
                   label="Password"
                   type="password"
                   fullWidth
-                  variant="standard"
+                  variant="outlined"
                   onChange={handlePassChange}
                 />
               </DialogContent>
             </div>
           )}
-          {isLoggedIn && (
-            <Alert severity="success">You are logged in !!</Alert>
-
-          )}
+          {isLoggedIn && <Alert severity="success">You are logged in !!</Alert>}
 
           {Isunauthorized && (
             <Alert severity="error">Username or Password Invalid!</Alert>
           )}
 
           <DialogActions>
-          <NavLink to='/'>
-            <Button onClick={handleClose}>Cancel</Button>
-            </NavLink>
-            <Button
-              disabled={isLoggedIn}
-              variant="contained"
-              onClick={handleSubmit}
-              type="submit"
+            <div
+              style={{
+                justifyContent: "space-between",
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+              }}
             >
-              Login
-            </Button>
+              <div style={{ justifyContent: "left" }}>
+                {" "}
+                <NavLink to="/register">
+                  <Button
+                    disabled={isLoggedIn}
+                    variant="outlined"
+                    type="submit"
+                  >
+                    Register
+                    <PersonAddIcon
+                      sx={{ fontSize: "20px", marginLeft: "5px" }}
+                    />
+                  </Button>
+                </NavLink>
+              </div>
+              <div style={{ justifyContent: "left" }}>
+                <NavLink to="/">
+                  <Button onClick={handleClose}>Cancel</Button>
+                </NavLink>
+                <Button
+                  disabled={isLoggedIn}
+                  variant="contained"
+                  onClick={handleSubmit}
+                  type="submit"
+                >
+                  Login
+                  <LoginIcon  sx={{ fontSize: "20px", marginLeft: "5px" }} />
+                </Button>
+              </div>
+            </div>
           </DialogActions>
         </Dialog>
       </form>

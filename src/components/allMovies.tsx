@@ -3,7 +3,9 @@ import {
   Button,
   Card,
   CardActions,
-  CardContent, CircularProgress, Typography
+  CardContent,
+  CircularProgress,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
@@ -12,13 +14,14 @@ import { useNavigate } from "react-router-dom";
 export default function AllMovies(props: any) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  console.log(props);
 
   const deleteMovie = (movieId: any, name: string) => {
     axios
       .delete(`https://localhost:7114/movie/${movieId}`)
       .then((res) => {
         if (res.status === 200 || res.status === 204) {
-
+          props.loadAllMovies();
           enqueueSnackbar(`${name} has been deleted successfully!`, {
             variant: "success",
           });
@@ -26,18 +29,12 @@ export default function AllMovies(props: any) {
           enqueueSnackbar("Error deleting the movie!", { variant: "error" });
         }
       })
-      .catch((err:any) => {
-
+      .catch((err: any) => {
         enqueueSnackbar(`${err.response.data.errorMessage}`, {
           variant: "error",
-         });
-      })
-      .finally(()=>{
-        props.loadAllmovies();
-
+        });
       });
   };
-
   if (props.loading) {
     return (
       <div
@@ -70,7 +67,7 @@ export default function AllMovies(props: any) {
                     {movie.movieName}
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {movie.releaseDate}
+                    {new Date(movie.releaseDate).toLocaleDateString()}
                   </Typography>
                   <Typography variant="body2">
                     Total Views : {movie.totalViews}$

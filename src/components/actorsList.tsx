@@ -55,6 +55,7 @@ export default function ActorsList(props: any) {
                     value={actor.actorId}
                     onChange={(e) => handleChecked(e, index)}
                   />
+                  
               );
             })}
           {allActors.length === 0 && (

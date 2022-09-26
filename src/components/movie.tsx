@@ -1,6 +1,8 @@
 import { Box, Button, Grid } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import {  handleAuth } from "../commonFunctions/authorised";
 import AddMovie from "./addMovie";
 import AllMovies from "./allMovies";
 import DeleteMovie from "./deleteMovie";
@@ -9,8 +11,15 @@ import MovieSearch from "./movieSearch";
 export default function Actor() {
   const [allMovies, setAllMovies] = useState({});
   const [isLoading, setLoading] = useState(false);
+  const {state} = useLocation();
+  const navigate = useNavigate();
+  const location :any = useLocation();
 
-  const loadAllMovies = async () => {
+  useEffect(() => {
+    if (!handleAuth()) navigate("/login", {state: location.pathname});
+  }, []);
+
+  const loadAllMovies = () => {
     setLoading(true);
     setAllMovies({});
     axios.get("https://localhost:7114/movies").then((res) => {
@@ -43,13 +52,13 @@ export default function Actor() {
         {!(allMovies == null) && (
           <Grid container xs={16} sx={{ margin: "30px" }}>
             <AllMovies
+              loadAllMovies={loadAllMovies}
               movies={allMovies}
               loading={isLoading}
-              loadAllMovies={loadAllMovies}
             />
           </Grid>
         )}
-        <AddMovie />
+        <AddMovie loadAllMovies={loadAllMovies}/>
         <DeleteMovie />
       </Box>
     </>

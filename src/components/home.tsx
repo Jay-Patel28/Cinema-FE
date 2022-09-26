@@ -37,7 +37,7 @@ export default function Home() {
             style={{ maxHeight: "600px" }}
           />
         </div>
-        <div className="text-on-image" style={{ maxHeight: "200px" ,width:"100%"}}>
+        <div className="text-on-image" style={{ maxHeight: "200px" ,width:"95%"}}>
           <h2> Hot Release this week </h2>
           <h5> On HBO </h5>
         </div>

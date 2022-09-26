@@ -3,9 +3,16 @@ import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import ActorsList from "./actorsList";
-export default function AddMovie() {
+import dayjs, { Dayjs } from "dayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+
+
+export default function AddMovie(props: any) {
   const [movieName, setMovieName] = useState("");
   const [totalViews, setTotalViews] = useState(0);
+  const [releaseDate, setReleaseDate] = useState(new Date());
   const [added, setAdded] = useState(false);
   const [addedFail, setAddedFail] = useState(false);
   const [inputList, setInputList] = useState([{}]);
@@ -23,13 +30,14 @@ export default function AddMovie() {
     console.log("inputList: ", inputList);
   };
 
-  const handleReleaseChange = () => {};
+
 
   const handleMovieNameChange = (e: any) => {
     setMovieName(e.target.value);
   };
   const handleViewsChange = (e: any) => {
     setTotalViews(e.target.value);
+    console.log("e.target.value: ", e.target.value);
   };
 
   const setActorsInputFromChild = (list: any) => {
@@ -67,6 +75,7 @@ export default function AddMovie() {
       })
       .then((res) => {
         if (res.status === 200) {
+          props.loadAllMovies();
           enqueueSnackbar("Movie is Added successfully!", {
             variant: "success",
           });
@@ -81,6 +90,12 @@ export default function AddMovie() {
           setAddedFail(true);
         }
       });
+  };
+
+
+
+  const handleReleaseChange =  (newValue: any) => {
+    console.log('newValue: ', newValue);
   };
   return (
     <>
@@ -119,37 +134,16 @@ export default function AddMovie() {
                 onChange={handleReleaseChange}
               />
             </Grid>
-            {/* {""}
-            <Grid item xs={15}>
-              <Typography variant="h5" component="div">
-                Add Actors for new Movie
-              </Typography>
-            </Grid>
+{/* 
 
-            {Array.from(Array(counter)).map((c, index) => {
-              return (
-                <Grid item xs={15}>
-                  <TextField
-                    key={c}
-                    id="outlined-basic"
-                    label="Actor Id"
-                    variant="outlined"
-                    onChange={(e) => handleOnChange(e, index)}
-                  />
-                </Grid>
-              );
-            })} */}
-
-            {/* <Grid item xs={3}>
-              <Button
-                onClick={handleClick}
-                size="small"
-                variant="outlined"
-                color="info"
-              >
-                Add more
-              </Button>
-            </Grid> */}
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DesktopDatePicker
+          label="Date desktop"
+          inputFormat="DD/MM/YYYY"
+          value={moment().format() }
+          onChange={handleReleaseChange}
+          renderInput={(params) => <TextField {...params} />}
+        /></LocalizationProvider> */}
 
             <Grid item xs={15}>
               <Typography variant="h5" component="div">
@@ -170,13 +164,7 @@ export default function AddMovie() {
               </Button>
             </Grid>
 
-            {/* {added && (
-              <Grid item xs={4}>
-                <Alert variant="filled" severity="success">
-                  Movie Added successfully!
-                </Alert>
-              </Grid>
-            )} */}
+
           </Grid>
         </div>
       </Box>
