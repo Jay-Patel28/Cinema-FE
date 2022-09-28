@@ -1,17 +1,17 @@
 import {
-  Alert, Button,
+  Alert,
+  Button,
   Dialog,
   DialogActions,
-  DialogContent, DialogTitle, TextField
+  DialogContent,
+  DialogTitle,
+  TextField,
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
+import { registerRequestDTO } from "../DTOs/registerRequestDTO";
 export default function Register() {
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-  const [data, setData] = useState({});
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState("");
 
@@ -23,43 +23,35 @@ export default function Register() {
     setOpen(false);
   };
 
-  const handleEmailChange = (e: any) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUnauthorized(false);
     setEmail(e.target.value);
   };
 
-  const handleUsernameChange = (e: any) => {
+  const handleUsernameChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     setUnauthorized(false);
 
     setuName(e.target.value);
   };
 
-  const handlePassChange = (e: any) => {
+  const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUnauthorized(false);
 
     setPass(e.target.value);
     console.log(pass);
   };
   const handleSubmit = async () => {
-    setData({
-      username: email,
-      password: pass,
-    });
-
-    console.log("data: ", {
+    const regData = {
       username: uName,
       email: email,
       password: pass,
-    });
-    const res: any = await loginRequest({
-      username: uName,
-      email: email,
-      password: pass,
-    });
-    console.log("res.status: ", res);
+    };
+    registerRequest(regData);
   };
 
-  const loginRequest = async (data: any) => {
+  const registerRequest = async (data: registerRequestDTO) => {
     axios
       .post("https://localhost:7114/api/Authenticate/register", data, {
         headers: { "Content-Type": "application/json" },
@@ -95,6 +87,7 @@ export default function Register() {
               <DialogTitle>Register</DialogTitle>
               <DialogContent>
                 <TextField
+                  data-testid="reg_username"
                   autoFocus
                   margin="dense"
                   id="name"
@@ -106,6 +99,7 @@ export default function Register() {
                   onChange={handleUsernameChange}
                 />
                 <TextField
+                  data-testid="reg_email"
                   autoFocus
                   margin="dense"
                   id="email"
@@ -117,6 +111,7 @@ export default function Register() {
                   onChange={handleEmailChange}
                 />
                 <TextField
+                  data-testid="reg_password"
                   margin="dense"
                   id="pass"
                   label="Password"
@@ -137,9 +132,12 @@ export default function Register() {
 
           <DialogActions>
             <NavLink to="/">
-              <Button onClick={handleClose} sx={{textDecoration:"none"}}>Cancel</Button>
+              <Button onClick={handleClose} sx={{ textDecoration: "none" }}>
+                Cancel
+              </Button>
             </NavLink>
             <Button
+              data-testid="reg_submit"
               disabled={isLoggedIn}
               variant="contained"
               onClick={handleSubmit}

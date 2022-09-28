@@ -1,8 +1,21 @@
-import { Box, Checkbox, FormControlLabel, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEventData } from "react-dom/test-utils";
+import { actorDTO } from "../DTOs/actorDTO";
 import ProgressBar from "./Progressbar";
-export default function ActorsList(props: any) {
+
+interface propsInterface {
+  setActorsInputFromChild: Function;
+}
+
+export default function ActorsList(props: propsInterface) {
   const [allActors, setAllActors] = useState([]);
   const [inputList, setInputList] = useState<Array<string>>([]);
 
@@ -19,11 +32,12 @@ export default function ActorsList(props: any) {
     console.log("inputList: l ", inputList);
   });
 
-  const handleChecked = (e: any, index: number) => {
-    console.log(e);
-    const { value }: any = e.target;
+  const handleChecked = (index: number,e: any) => {
+    const value = e.target.value;
+    const target = e.target as HTMLInputElement;
+    const isChecked: boolean = target.checked;
     const list = [...inputList];
-    if (e.target.checked) {
+    if (isChecked) {
       if (index === 0) {
         list.splice(0, 1);
       }
@@ -42,20 +56,22 @@ export default function ActorsList(props: any) {
   return (
     <>
       {" "}
-      <Box sx={{display:"flex"}}>
-        <Grid item xs={16} sx={{width:"80%"}}>
+      <Box sx={{ display: "flex" }}>
+        <Grid item xs={16} sx={{ width: "80%" }}>
           {allActors &&
-            allActors.map((actor: any, index) => {
+            allActors.map((actor: actorDTO, index) => {
               return (
-                  <FormControlLabel
-                  sx={{margin:"10px"}}
-                    key={actor.actorId}
-                    control={<Checkbox />}
-                    label={actor.firstName}
-                    value={actor.actorId}
-                    onChange={(e) => handleChecked(e, index)}
-                  />
-                  
+                <FormControlLabel
+                  sx={{ margin: "10px" }}
+                  key={actor.actorId}
+                  control={<Checkbox />}
+                  label={actor.firstName}
+                  value={actor.actorId}
+                  onChange={(e) => {
+                    console.log("e: ", e);
+                    handleChecked(index,e);
+                  }}
+                />
               );
             })}
           {allActors.length === 0 && (

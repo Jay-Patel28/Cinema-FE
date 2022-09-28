@@ -4,20 +4,20 @@ import { useSnackbar } from "notistack";
 import { useState } from "react";
 
 export default function DeleteActor() {
-  const [delId, setDelId] = useState("");
+  const [delId, setDelId] = useState<string>("");
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleIdChange = (e: any) => {
+  const handleIdChange = (e:  React.ChangeEvent<HTMLInputElement>) => {
     setDelId(e.target.value);
   };
 
   const deleteActor = async () => {
-    const res: any = await delRequest(delId);
+    await delRequest(delId);
   };
 
-  const delRequest = async (data: any) => {
+  const delRequest = async (data: string) => {
     axios
-      .delete(`https://localhost:7114/actor/${data}`, data)
+      .delete(`https://localhost:7114/actor/${data}`)
       .then((res) => {
         if (res.status === 200) {
           enqueueSnackbar("Actor Deleted successfully!", { variant: "success" });

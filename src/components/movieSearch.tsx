@@ -1,38 +1,36 @@
 import {
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CircularProgress, TextField,
-    Typography
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CircularProgress,
+  TextField,
+  Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../src/App.css";
+import { movieDTO } from "../DTOs/movieDTO";
+// import "../../src/App.css";
 export default function MovieSearch() {
-
-    const navigate = useNavigate();
-    const [isLoading, setLoading] = useState(false);
-    const [searchResults, setSearchResults] = useState([]);
-    const handleMovieSearch = (e: any) => {
-        setLoading(true);
-        const search = e.target.value;
-        if (search === null) {
-          setSearchResults([]);
-        }
-        axios.get(`https://localhost:7114/movie/q/${search}`).then((res: any) => {
-          console.log("res: ", res.data);
-          if (res === null) {
-            return null;
-          }
-          setTimeout(() => {
-            setLoading(false);
-            setSearchResults(res.data);
-          }, 1000);
-        });
-      };
+  const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState<Array<movieDTO>>([]);
+  const handleMovieSearch = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setLoading(true);
+    const search = e.target.value;
+    if (search === null) {
+      setSearchResults([]);
+    }
+    axios.get(`https://localhost:7114/movie/q/${search}`).then((res) => {
+      const movie: Array<movieDTO> = res.data;
+      setTimeout(() => {
+        setLoading(false);
+        setSearchResults(movie);
+      }, 1000);
+    });
+  };
   return (
     <Box
       component="form"
@@ -56,6 +54,7 @@ export default function MovieSearch() {
         {isLoading && <CircularProgress color="inherit" />}
       </Typography>
       <TextField
+        data-testid="SearchField"
         id="standard-basic"
         label="Enter your search"
         color="secondary"
@@ -63,33 +62,34 @@ export default function MovieSearch() {
         focused
       />
       {/* {isLoading && <CircularProgress color="success" />} */}
-      {Array.from(searchResults).map((movie: any) => {
-        return (
-          <div key={movie.id}>
-            <Card sx={{ minWidth: 275, background: "white", margin: "20px" }}>
-              <CardContent>
-                <Typography variant="h5" component="div">
-                  {movie.movieName}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  {movie.releaseDate}
-                </Typography>
-                <Typography variant="body2">
-                  Total Views : {movie.totalViews}$
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  onClick={() => navigate(`/movie/${movie.id}`)}
-                >
-                  Learn More
-                </Button>
-              </CardActions>
-            </Card>
-          </div>
-        );
-      })}
+      {searchResults.length > 0 &&
+        Array.from(searchResults).map((movie: movieDTO) => {
+          return (
+            <div key={movie.id}>
+              <Card sx={{ minWidth: 275, background: "white", margin: "20px" }}>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {movie.movieName}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {movie.releaseDate}
+                  </Typography>
+                  <Typography variant="body2">
+                    Total Views : {movie.totalViews}$
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    size="small"
+                    onClick={() => navigate(`/movie/${movie.id}`)}
+                  >
+                    Learn More
+                  </Button>
+                </CardActions>
+              </Card>
+            </div>
+          );
+        })}
     </Box>
   );
 }

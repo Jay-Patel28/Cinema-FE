@@ -10,13 +10,15 @@ import {
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import { allMoviesProps } from "../DTOs/allMoviesProps";
+import { movieDTO } from "../DTOs/movieDTO";
 
-export default function AllMovies(props: any) {
+export default function AllMovies(props: allMoviesProps) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   console.log(props);
 
-  const deleteMovie = (movieId: any, name: string) => {
+  const deleteMovie = (movieId: string, name: string) => {
     axios
       .delete(`https://localhost:7114/movie/${movieId}`)
       .then((res) => {
@@ -29,7 +31,7 @@ export default function AllMovies(props: any) {
           enqueueSnackbar("Error deleting the movie!", { variant: "error" });
         }
       })
-      .catch((err: any) => {
+      .catch((err) => {
         enqueueSnackbar(`${err.response.data.errorMessage}`, {
           variant: "error",
         });
@@ -51,12 +53,13 @@ export default function AllMovies(props: any) {
       </div>
     );
   }
-
+  const { movies } = props;
   return (
     <>
       {props &&
-        props.movies.length > 0 &&
-        props.movies.map((movie: any) => {
+        movies &&
+        movies.length > 0 &&
+        movies?.map((movie: movieDTO) => {
           return (
             <div key={movie.id}>
               <Card
@@ -67,7 +70,7 @@ export default function AllMovies(props: any) {
                     {movie.movieName}
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {new Date(movie.releaseDate).toLocaleDateString()}
+                    {movie.releaseDate}
                   </Typography>
                   <Typography variant="body2">
                     Total Views : {movie.totalViews}$

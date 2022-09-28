@@ -4,23 +4,23 @@ import { useSnackbar } from "notistack";
 import { useState } from "react";
 
 export default function DeleteMovie() {
-  const [delId, setDelId] = useState("");
+  const [delId, setDelId] = useState<string>("");
 
   const [added, setAdded] = useState(false);
   const [addedFail, setAddedFail] = useState(false);
 
-  const handleIdChange = (e: any) => {
+  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDelId(e.target.value);
   };
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteMovie = async () => {
-    const res: any = await delRequest(delId);
+  const deleteMovie = () => {
+    delRequest(delId);
   };
 
-  const delRequest = async (data: any) => {
+  const delRequest = async (data: string) => {
     axios
-      .delete(`https://localhost:7114/movie/${data}`, data)
+      .delete(`https://localhost:7114/movie/${data}`)
       .then((res) => {
         if (res.status === 200) {
           enqueueSnackbar("Movie Deleted successfully!", {

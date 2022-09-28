@@ -2,53 +2,76 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { addActorRequest } from "../commonFunctions/addActor";
+import { actorDTO } from "../DTOs/actorDTO";
+import { newActorDTO } from "../DTOs/newActorDTO";
 
-export default function AddActor(props:any) {
+interface propsInterface {
+  loadAllActors: Function;
+}
+
+export default function AddActor(props: propsInterface) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [wealth, setWealth] = useState(0);
+  const [wealth, setWealth] = useState<number>(0);
 
   const { enqueueSnackbar } = useSnackbar();
- 
-  const handleFirstNameChange = (e: any) => {
+
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
   };
-  const handleLastNameChange = (e: any) => {
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
   };
-  const handleWealthChange = (e: any) => {
-    setWealth(e.target.value);
+  const handleWealthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const wealth = e.target.value;
+    setWealth(parseInt(wealth));
   };
 
   const addActor = async () => {
-    const res: any = await addRequest({
+    // const res: any = await addRequest({
+    //   FirstName: firstName,
+    //   LastName: lastName,
+    //   Wealth: wealth,
+    // });
+
+    const newActor: newActorDTO = {
       FirstName: firstName,
       LastName: lastName,
       Wealth: wealth,
-    });
-    console.log("res.status: ", res);
+    };
+
+    const response: actorDTO = await addActorRequest(newActor);
+    console.log("response: ssssssssssss", response);
+    if (response !== null) {
+      props.loadAllActors();
+      enqueueSnackbar(`${response.firstName} Added successfully!`, { variant: "success" });
+    } else {
+      enqueueSnackbar("Error!", { variant: "error" });
+    }
   };
 
-  const addRequest = async (data: any) => {
-    axios
-      .post("https://localhost:7114/actor", data, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          props.loadAllActors();
-          enqueueSnackbar("Actor Added successfully!", { variant: "success" });
-          console.log("Success");
-        }
-        return res;
-      })
-      .catch((err) => {
-        console.log("err: ", err);
-        if (err.response.status !== 200) {
-          enqueueSnackbar("Error!", { variant: "error" });
-        }
-      });
-  };
+  // const addRequest = async (actor: newActorDTO) => {
+  // axios
+  //   .post("https://localhost:7114/actor", data, {
+  //     headers: { "Content-Type": "application/json" },
+  //   })
+  //   .then((res) => {
+  //     if (res.status === 200) {
+  //       props.loadAllActors();
+  //       enqueueSnackbar("Actor Added successfully!", { variant: "success" });
+  //       console.log("Success");
+  //     }
+  //     return res;
+  //   })
+  //   .catch((err) => {
+  //     console.log("err: ", err);
+  //     if (err.response.status !== 200) {
+  //       enqueueSnackbar("Error!", { variant: "error" });
+  //     }
+  //   });
+  // const newActor = addActorRequest(actor);
+  // };
   return (
     <>
       <Box
@@ -64,6 +87,7 @@ export default function AddActor(props:any) {
             </Grid>
             <Grid item xs={3}>
               <TextField
+                data-testid="add_fname"
                 id="outlined-basic"
                 label="FirstName"
                 variant="outlined"
@@ -72,6 +96,7 @@ export default function AddActor(props:any) {
             </Grid>
             <Grid item xs={3}>
               <TextField
+                data-testid="add_lname"
                 id="outlined-basic"
                 label="LastName"
                 variant="outlined"
@@ -80,6 +105,7 @@ export default function AddActor(props:any) {
             </Grid>
             <Grid item xs={3}>
               <TextField
+                data-testid="add_wealth"
                 id="outlined-basic"
                 label="Total Wealth"
                 variant="outlined"
@@ -87,7 +113,12 @@ export default function AddActor(props:any) {
               />
             </Grid>
             <Grid item xs={3}>
-              <Button onClick={addActor} size="large" variant="contained">
+              <Button
+                data-testid="add_actor_button"
+                onClick={addActor}
+                size="large"
+                variant="contained"
+              >
                 Add
               </Button>
             </Grid>

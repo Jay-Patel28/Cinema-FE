@@ -12,32 +12,31 @@ import { useState } from "react";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
+import { loginRequestDTO } from "../DTOs/loginRequestDTO";
+
 export default function Login() {
-  const { enqueueSnackbar } = useSnackbar();
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const navigate = useNavigate();
   const { state } = useLocation();
-  console.log("redirectPage: ", state);
-  const [data, setData] = useState({});
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  // const [data, setData] = useState({});
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [Isunauthorized, setUnauthorized] = useState(false);
+
   const handleClose = () => {
     setOpen(false);
-    // return <Navigate to="/" />;
   };
-  const handleEmailChange = (e: any) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUnauthorized(false);
-
     setEmail(e.target.value);
-    console.log(email);
   };
-  const handlePassChange = (e: any) => {
+  const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUnauthorized(false);
 
     setPass(e.target.value);
@@ -45,23 +44,16 @@ export default function Login() {
   };
 
   const handleSubmit = async () => {
-    setData({
+    console.log('handleSubmit: ');
+    const loginCreds: loginRequestDTO = {
       username: email,
       password: pass,
-    });
+    };
 
-    console.log("data: ", {
-      username: email,
-      password: pass,
-    });
-    const res: any = await loginRequest({
-      username: email,
-      password: pass,
-    });
-    console.log("res.status: ", res);
+    loginRequest(loginCreds);
   };
 
-  const loginRequest = async (data: any) => {
+  const loginRequest = async (data: loginRequestDTO) => {
     axios
       .post("https://localhost:7114/api/Authenticate/login", data, {
         headers: { "Content-Type": "application/json" },
@@ -74,7 +66,7 @@ export default function Login() {
         enqueueSnackbar("You are logged in!", { variant: "success" });
         navigate(state ? state : "/");
       })
-      .catch((err: any) => {
+      .catch((err) => {
         console.log("err: ", err);
         if (err.response.status === 401) {
           setUnauthorized(true);
@@ -96,9 +88,10 @@ export default function Login() {
           {!isLoggedIn && (
             <div>
               {" "}
-              <DialogTitle>Login</DialogTitle>
+              <DialogTitle data-testid="Login_title">Login</DialogTitle>
               <DialogContent>
                 <TextField
+                  data-testid="email_input"
                   autoFocus
                   margin="dense"
                   id="name"
@@ -110,6 +103,7 @@ export default function Login() {
                   onChange={handleEmailChange}
                 />
                 <TextField
+                  data-testid="pass_input"
                   margin="dense"
                   required
                   id="pass"
@@ -157,13 +151,14 @@ export default function Login() {
                   <Button onClick={handleClose}>Cancel</Button>
                 </NavLink>
                 <Button
+                  data-testid="login_button"
                   disabled={isLoggedIn}
                   variant="contained"
                   onClick={handleSubmit}
                   type="submit"
                 >
                   Login
-                  <LoginIcon  sx={{ fontSize: "20px", marginLeft: "5px" }} />
+                  <LoginIcon sx={{ fontSize: "20px", marginLeft: "5px" }} />
                 </Button>
               </div>
             </div>

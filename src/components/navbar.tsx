@@ -3,7 +3,7 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { handleAuth } from "../commonFunctions/authorised";
-import "../index.css";
+// import "../index.css";
 
 export default function Navbar() {
   const [isLoggedIn, setLoggedIn] = useState(handleAuth);
@@ -18,7 +18,6 @@ export default function Navbar() {
   };
   useEffect(() => {
     setLoggedIn(handleAuth);
-    console.log("JJJJJ");
     
   });
 
@@ -29,6 +28,7 @@ export default function Navbar() {
           <Toolbar variant="dense">
             <NavLink to="/">
               <Typography
+                data-testid="CinemaLogo"
                 color="darkorange"
                 variant="h3"
                 component="div"

@@ -1,30 +1,32 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../src/App.css";
+// import "../../src/App.css";
 import MovieSearch from "./movieSearch";
 
 export default function Home() {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const handleMovieSearch = (e: any) => {
-    setLoading(true);
-    const search = e.target.value;
-    if (search === null) {
-      setSearchResults([]);
-    }
-    axios.get(`https://localhost:7114/movie/q/${search}`).then((res: any) => {
-      console.log("res: ", res.data);
-      if (res === null) {
-        return null;
-      }
-      setTimeout(() => {
-        setLoading(false);
-        setSearchResults(res.data);
-      }, 700);
-    });
-  };
+
+
+  // const handleMovieSearch = (e: any) => {
+  //   setLoading(true);
+  //   const search = e.target.value;
+  //   if (search === null) {
+  //     setSearchResults([]);
+  //   }
+  //   axios.get(`https://localhost:7114/movie/q/${search}`).then((res: any) => {
+  //     console.log("res: ", res.data);
+  //     if (res === null) {
+  //       return null;
+  //     }
+  //     setTimeout(() => {
+  //       setLoading(false);
+  //       setSearchResults(res.data);
+  //     }, 700);
+  //   });
+  // };
 
   return (
     <>

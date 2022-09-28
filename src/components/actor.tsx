@@ -1,36 +1,31 @@
 import { Box, Button, Grid } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { handleAuth } from "../commonFunctions/authorised";
+import { fetchAllActors } from "../commonFunctions/fetchAllActors";
+import { actorDTO } from "../DTOs/actorDTO";
 import AddActor from "./addActor";
 import AllActors from "./allActors";
 import DeleteActor from "./deleteActor";
 
+
 export default function Actor() {
-  const { data } = useParams();
-  console.log("data: ", data);
-  const [allActors, setAllActors] = useState({});
-  const [isLoading, setLoading] = useState(false);
+  const [allActors, setAllActors] = useState<Array<actorDTO>>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const location: any = useLocation();
+  const location = useLocation();
+
+   const loadAllActors = async() => {
+    setLoading(true);
+    setAllActors([]);
+    const actors: Array<actorDTO> = await fetchAllActors();
+    setAllActors(actors);
+    setLoading(false);
+  }
 
   useEffect(() => {
     if (!handleAuth()) navigate("/login", { state: location.pathname });
   }, []);
-
-  const loadAllActors = async () => {
-    console.log("loadAllActors: ");
-    setLoading(true);
-    setAllActors({});
-    axios.get("https://localhost:7114/actors").then((res) => {
-      console.log("res: ", res);
-      setTimeout(() => {
-        setAllActors(res.data);
-        setLoading(false);
-      }, 500);
-    });
-  };
 
   return (
     <>
@@ -45,13 +40,14 @@ export default function Actor() {
         {" "}
         <Button
           sx={{ margin: "20px" }}
-          onClick={loadAllActors}
+          onClick={()=>loadAllActors()}
           variant="contained"
         >
           Load All Actors
         </Button>
         {!(allActors == null) && (
           <Grid container>
+
             <AllActors
               actors={allActors}
               loading={isLoading}

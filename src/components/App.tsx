@@ -1,15 +1,15 @@
 import { SnackbarProvider } from "notistack";
-import "./App.css";
-import Navbar from "./components/navbar";
+// import "./App.css";
+import Navbar from "./navbar";
 
 import { QueryClient } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Actor from "./components/actor";
-import Home from "./components/home";
-import Login from "./components/login";
-import Movie from "./components/movie";
-import MoviePage from "./components/moviePage";
-import Register from "./components/register";
+import Actor from "./actor";
+import Home from "./home";
+import Login from "./login";
+import Movie from "./movie";
+import MoviePage from "./moviePage";
+import Register from "./register";
 
 function App() {
   const queryClient = new QueryClient();

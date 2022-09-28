@@ -9,11 +9,10 @@ import DeleteMovie from "./deleteMovie";
 import MovieSearch from "./movieSearch";
 
 export default function Actor() {
-  const [allMovies, setAllMovies] = useState({});
+  const [allMovies, setAllMovies] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const {state} = useLocation();
   const navigate = useNavigate();
-  const location :any = useLocation();
+  const location  = useLocation();
 
   useEffect(() => {
     if (!handleAuth()) navigate("/login", {state: location.pathname});
@@ -21,7 +20,7 @@ export default function Actor() {
 
   const loadAllMovies = () => {
     setLoading(true);
-    setAllMovies({});
+    setAllMovies([]);
     axios.get("https://localhost:7114/movies").then((res) => {
       setTimeout(() => {
         setAllMovies(res.data);

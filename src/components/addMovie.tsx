@@ -6,10 +6,16 @@ import ActorsList from "./actorsList";
 import dayjs, { Dayjs } from "dayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { actorDTO } from "../DTOs/actorDTO";
+import { actorwithId, addMovieDTO, movieDTO } from "../DTOs/movieDTO";
+
+interface propsInterface {
+  loadAllMovies: Function;
+}
 
 
-export default function AddMovie(props: any) {
+export default function AddMovie(props: propsInterface) {
   const [movieName, setMovieName] = useState("");
   const [totalViews, setTotalViews] = useState(0);
   const [releaseDate, setReleaseDate] = useState(new Date());
@@ -19,7 +25,10 @@ export default function AddMovie(props: any) {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleOnChange = (e: any, index: number) => {
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     console.log("index: e: ", index, " ", e.target.value);
 
     const { value } = e.target;
@@ -30,17 +39,15 @@ export default function AddMovie(props: any) {
     console.log("inputList: ", inputList);
   };
 
-
-
-  const handleMovieNameChange = (e: any) => {
+  const handleMovieNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMovieName(e.target.value);
   };
-  const handleViewsChange = (e: any) => {
-    setTotalViews(e.target.value);
+  const handleViewsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTotalViews(parseInt(e.target.value));
     console.log("e.target.value: ", e.target.value);
   };
 
-  const setActorsInputFromChild = (list: any) => {
+  const setActorsInputFromChild = (list: Array<actorDTO>) => {
     console.log("setActorsInputFromChild: ", list);
     setInputList(list);
   };
@@ -51,24 +58,26 @@ export default function AddMovie(props: any) {
       return el != null;
     });
     console.log("filtered: ", filtered);
-    const actors = filtered.map((actorId) => {
-      if (actorId !== null) {
+
+    const actors: any = filtered.map((actorid) => {
+      if (actorid !== null) {
         return {
-          actorId: actorId,
+          actorId: actorid,
         };
       }
     });
 
-    console.log("actors: ", actors);
-    const res: any = await addRequest({
+    const movie: addMovieDTO = {
       movieName: movieName,
       totalViews: totalViews,
       actorDTOs: actors,
-    });
-    console.log("res.status: ", res);
+    };
+
+    console.log("actors: ", actors);
+    addRequest(movie);
   };
 
-  const addRequest = async (data: any) => {
+  const addRequest = async (data: addMovieDTO) => {
     axios
       .post("https://localhost:7114/movie", data, {
         headers: { "Content-Type": "application/json" },
@@ -92,11 +101,9 @@ export default function AddMovie(props: any) {
       });
   };
 
-
-
-  const handleReleaseChange =  (newValue: any) => {
-    console.log('newValue: ', newValue);
-  };
+  // const handleReleaseChange = (newValue: string) => {
+  //   console.log("newValue: ", newValue);
+  // };
   return (
     <>
       <Box
@@ -131,10 +138,10 @@ export default function AddMovie(props: any) {
                 id="outlined-basic"
                 label="Realease Date"
                 variant="outlined"
-                onChange={handleReleaseChange}
+                // onChange={handleReleaseChange}
               />
             </Grid>
-{/* 
+            {/* 
 
             <LocalizationProvider dateAdapter={AdapterMoment}>
             <DesktopDatePicker
@@ -163,8 +170,6 @@ export default function AddMovie(props: any) {
                 Add
               </Button>
             </Grid>
-
-
           </Grid>
         </div>
       </Box>
