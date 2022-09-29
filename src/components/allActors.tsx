@@ -21,6 +21,7 @@ export default function AllActors({ actors, loadAllActors, loading }: any) {
 
   const deleteActor = (actorId: string, name: string) => {
     axios.delete(`https://localhost:7114/actor/${actorId}`).then((res) => {
+      console.log('res: ', res);
       if (res.status === 200) {
         enqueueSnackbar(`${name} has been deleted successfully!`, {
           variant: "success",

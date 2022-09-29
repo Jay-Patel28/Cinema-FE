@@ -10,7 +10,6 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { SyntheticEventData } from "react-dom/test-utils";
 import { actorDTO } from "../DTOs/actorDTO";
 import ProgressBar from "./Progressbar";
-
 interface propsInterface {
   setActorsInputFromChild: Function;
 }
@@ -24,7 +23,7 @@ export default function ActorsList(props: propsInterface) {
       setTimeout(() => {
         setAllActors(res.data);
         console.log("res.data: ", res.data);
-      }, 200);
+      }, 300);
     });
   }, []);
 

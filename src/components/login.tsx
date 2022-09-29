@@ -44,7 +44,7 @@ export default function Login() {
   };
 
   const handleSubmit = async () => {
-    console.log('handleSubmit: ');
+    console.log("handleSubmit: ");
     const loginCreds: loginRequestDTO = {
       username: email,
       password: pass,
@@ -54,11 +54,34 @@ export default function Login() {
   };
 
   const loginRequest = async (data: loginRequestDTO) => {
+    // try {
+    //   console.log("jbjbjbjbjbjbjbjb");
+      
+    //   const res: any = await axios.post(
+    //     "https://localhost:7114/api/Authenticate/login",
+    //     data,
+    //     {
+    //       headers: { "Content-Type": "application/json" },
+    //     }
+    //   );
+    //   console.log("res: ", res);
+    //   localStorage.setItem("jwt", res.data.token.toString());
+    //   if (res.status === 200) {
+    //     setLoggedIn(true);
+    //   }
+    //   enqueueSnackbar("You are logged in!", { variant: "success" });
+    //   navigate(state ? state : "/");
+    // } catch(err) {
+    //   console.log("err: rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", err);
+    //   // if (err.response.status === 401) {
+    //   setUnauthorized(true);
+    // }
     axios
       .post("https://localhost:7114/api/Authenticate/login", data, {
         headers: { "Content-Type": "application/json" },
       })
-      .then((res) => {
+      .then(function (res)  {
+        console.log("res: ", res);
         localStorage.setItem("jwt", res.data.token.toString());
         if (res.status === 200) {
           setLoggedIn(true);
@@ -67,10 +90,10 @@ export default function Login() {
         navigate(state ? state : "/");
       })
       .catch((err) => {
-        console.log("err: ", err);
-        if (err.response.status === 401) {
-          setUnauthorized(true);
-        }
+        console.log("err: rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", err);
+        // if (err.response.status === 401) {
+        setUnauthorized(true);
+        // }
       });
   };
 
@@ -100,6 +123,7 @@ export default function Login() {
                   fullWidth
                   required
                   variant="outlined"
+                  value={email}
                   onChange={handleEmailChange}
                 />
                 <TextField
@@ -111,6 +135,7 @@ export default function Login() {
                   type="password"
                   fullWidth
                   variant="outlined"
+                  value={pass}
                   onChange={handlePassChange}
                 />
               </DialogContent>
@@ -119,7 +144,9 @@ export default function Login() {
           {isLoggedIn && <Alert severity="success">You are logged in !!</Alert>}
 
           {Isunauthorized && (
-            <Alert severity="error">Username or Password Invalid!</Alert>
+            <Alert data-testid="error_unauth" severity="error">
+              Username or Password Invalid!
+            </Alert>
           )}
 
           <DialogActions>
