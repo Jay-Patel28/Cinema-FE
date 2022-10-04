@@ -7,40 +7,39 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { registerRequestDTO } from "../DTOs/registerRequestDTO";
+import { RegReq } from "../commonFunctions/registerService";
+import { RegistrationRequestDTO } from "../DTOs/registerRequestDTO";
+import { useSnackbar } from "notistack";
 export default function Register() {
+  const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(true);
+  const [regError, setRegError] = useState(false);
   const [email, setEmail] = useState("");
 
   const [uName, setuName] = useState("");
   const [pass, setPass] = useState("");
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const [Isunauthorized, setUnauthorized] = useState(false);
   const handleClose = () => {
     setOpen(false);
   };
-
+  const navigate = useNavigate();
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setUnauthorized(false);
+    setRegError(false);
     setEmail(e.target.value);
   };
 
   const handleUsernameChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setUnauthorized(false);
-
+    setRegError(false);
     setuName(e.target.value);
   };
 
   const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setUnauthorized(false);
-
     setPass(e.target.value);
-    console.log(pass);
+    setRegError(false);
   };
   const handleSubmit = async () => {
     const regData = {
@@ -51,27 +50,15 @@ export default function Register() {
     registerRequest(regData);
   };
 
-  const registerRequest = async (data: registerRequestDTO) => {
-    axios
-      .post("https://localhost:7114/api/Authenticate/register", data, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setLoggedIn(true);
-        }
-        return res;
-      })
-      .catch((err) => {
-        console.log("err: ", err);
-        if (err.response.status === 500) {
-          setUnauthorized(true);
-        }
-      });
+  const registerRequest = async (data: RegistrationRequestDTO) => {
+    const response = await RegReq(data);
+    if (response.status === 200) {
+      enqueueSnackbar("Registered successfully!", { variant: "info" });
+      navigate("/login");
+    } else {
+      setRegError(true);
+    }
   };
-
-  // const query = useQuery(['loginProc', data], loginRequest);
-  // console.log(query.data);
 
   return (
     <>
@@ -81,7 +68,7 @@ export default function Register() {
           onClose={handleClose}
           sx={{ minWidth: "300px", minHeight: "300px" }}
         >
-          {!isLoggedIn && (
+          {
             <div>
               {" "}
               <DialogTitle>Register</DialogTitle>
@@ -96,6 +83,7 @@ export default function Register() {
                   fullWidth
                   variant="outlined"
                   required
+                  value={uName}
                   onChange={handleUsernameChange}
                 />
                 <TextField
@@ -108,6 +96,7 @@ export default function Register() {
                   fullWidth
                   variant="outlined"
                   required
+                  value={email}
                   onChange={handleEmailChange}
                 />
                 <TextField
@@ -117,19 +106,23 @@ export default function Register() {
                   label="Password"
                   type="password"
                   fullWidth
+                  value={pass}
                   variant="outlined"
                   required
                   onChange={handlePassChange}
                 />
               </DialogContent>
             </div>
+          }
+          {regError && (
+            <>
+              <Alert variant="filled" severity="error">Registration Error!</Alert>
+            </>
           )}
-          {isLoggedIn && <Alert severity="success">You are Registered!</Alert>}
-
-          {Isunauthorized && (
-            <Alert severity="error">Please input valid data!</Alert>
-          )}
-
+          <Alert severity="info" >
+            Password should contain each of a special character, a number, an
+            alphabate.{" "}
+          </Alert>
           <DialogActions>
             <NavLink to="/">
               <Button onClick={handleClose} sx={{ textDecoration: "none" }}>
@@ -138,7 +131,6 @@ export default function Register() {
             </NavLink>
             <Button
               data-testid="reg_submit"
-              disabled={isLoggedIn}
               variant="contained"
               onClick={handleSubmit}
               type="submit"

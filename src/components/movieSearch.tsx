@@ -6,30 +6,29 @@ import {
   CardContent,
   CircularProgress,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { searchMovieByName } from "../commonFunctions/searchMovie";
 import { movieDTO } from "../DTOs/movieDTO";
 // import "../../src/App.css";
 export default function MovieSearch() {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<Array<movieDTO>>([]);
-  const handleMovieSearch = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+
+  const handleMovieSearch = async (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setLoading(true);
     const search = e.target.value;
-    if (search === null) {
-      setSearchResults([]);
-    }
-    axios.get(`https://localhost:7114/movie/q/${search}`).then((res) => {
-      const movie: Array<movieDTO> = res.data;
-      setTimeout(() => {
-        setLoading(false);
-        setSearchResults(movie);
-      }, 1000);
-    });
+    // if (search === null) {
+    //   setSearchResults([]);
+    // }
+    const movies: Array<movieDTO> = await searchMovieByName(search);
+    setLoading(false);
+    setSearchResults(movies);
   };
   return (
     <Box
@@ -54,7 +53,7 @@ export default function MovieSearch() {
         {isLoading && <CircularProgress color="inherit" />}
       </Typography>
       <TextField
-        data-testid="SearchField"
+        data-testid="MovieSearchField"
         id="standard-basic"
         label="Enter your search"
         color="secondary"

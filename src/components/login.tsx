@@ -1,3 +1,5 @@
+import LoginIcon from "@mui/icons-material/Login";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {
   Alert,
   Button,
@@ -5,24 +7,21 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
+  TextField
 } from "@mui/material";
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import LoginIcon from "@mui/icons-material/Login";
+import { useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { LoginReq } from "../commonFunctions/loginService";
 import { loginRequestDTO } from "../DTOs/loginRequestDTO";
 
-export default function Login() {
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+export const LoginDialog = () => {
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
   const { state } = useLocation();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  // const [data, setData] = useState({});
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -40,11 +39,9 @@ export default function Login() {
     setUnauthorized(false);
 
     setPass(e.target.value);
-    console.log(pass);
   };
 
   const handleSubmit = async () => {
-    console.log("handleSubmit: ");
     const loginCreds: loginRequestDTO = {
       username: email,
       password: pass,
@@ -54,51 +51,15 @@ export default function Login() {
   };
 
   const loginRequest = async (data: loginRequestDTO) => {
-    // try {
-    //   console.log("jbjbjbjbjbjbjbjb");
-      
-    //   const res: any = await axios.post(
-    //     "https://localhost:7114/api/Authenticate/login",
-    //     data,
-    //     {
-    //       headers: { "Content-Type": "application/json" },
-    //     }
-    //   );
-    //   console.log("res: ", res);
-    //   localStorage.setItem("jwt", res.data.token.toString());
-    //   if (res.status === 200) {
-    //     setLoggedIn(true);
-    //   }
-    //   enqueueSnackbar("You are logged in!", { variant: "success" });
-    //   navigate(state ? state : "/");
-    // } catch(err) {
-    //   console.log("err: rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", err);
-    //   // if (err.response.status === 401) {
-    //   setUnauthorized(true);
-    // }
-    axios
-      .post("https://localhost:7114/api/Authenticate/login", data, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then(function (res)  {
-        console.log("res: ", res);
-        localStorage.setItem("jwt", res.data.token.toString());
-        if (res.status === 200) {
-          setLoggedIn(true);
-        }
-        enqueueSnackbar("You are logged in!", { variant: "success" });
-        navigate(state ? state : "/");
-      })
-      .catch((err) => {
-        console.log("err: rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", err);
-        // if (err.response.status === 401) {
-        setUnauthorized(true);
-        // }
-      });
+    const resp: any = await LoginReq(data);
+    if (resp?.status === 200) {
+      setLoggedIn(true);
+      enqueueSnackbar("You are logged in!", { variant: "success" });
+      navigate(state ? state : "/");
+    } else {
+      setUnauthorized(true);
+    }
   };
-
-  // const query = useQuery(['loginProc', data], loginRequest);
-  // console.log(query.data);
 
   return (
     <>
@@ -196,3 +157,5 @@ export default function Login() {
     </>
   );
 }
+
+export default LoginDialog;

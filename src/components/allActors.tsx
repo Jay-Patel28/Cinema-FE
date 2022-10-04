@@ -5,10 +5,10 @@ import {
   CardActions,
   CardContent,
   CircularProgress,
-  Typography,
+  Typography
 } from "@mui/material";
-import axios from "axios";
 import { useSnackbar } from "notistack";
+import { deleteActorService } from "../commonFunctions/deleteActor";
 import { actorDTO } from "../DTOs/actorDTO";
 
 interface propsInterface {
@@ -19,18 +19,16 @@ interface propsInterface {
 export default function AllActors({ actors, loadAllActors, loading }: any) {
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteActor = (actorId: string, name: string) => {
-    axios.delete(`https://localhost:7114/actor/${actorId}`).then((res) => {
-      console.log('res: ', res);
-      if (res.status === 200) {
-        enqueueSnackbar(`${name} has been deleted successfully!`, {
-          variant: "success",
-        });
-        loadAllActors();
-      } else {
-        enqueueSnackbar("Error deleting the movie!", { variant: "error" });
-      }
-    });
+  const deleteActor = async (actorId: string, name: string) => {
+    const response = await deleteActorService(actorId);
+    if (response.status === 200) {
+      enqueueSnackbar(`${name} has been deleted successfully!`, {
+        variant: "success",
+      });
+      loadAllActors();
+    } else {
+      enqueueSnackbar("Error deleting the actor!", { variant: "error" });
+    }
   };
 
   if (loading) {
@@ -51,16 +49,13 @@ export default function AllActors({ actors, loadAllActors, loading }: any) {
   }
 
   return (
-    <div
-      data-testid="actors_container"
-      style={{ display: "flex", width: "100%" }}
-    >
-      {actors?.length > 0 &&
+    <>
+      {actors?.length > 0 ? (
         actors.map((actor: actorDTO) => {
           return (
             <div key={actor.actorId}>
               <Card
-                sx={{ minWidth: 275, background: "gainsboro", margin: "15px" }}
+                sx={{ minWidth: 275, background: "gainsboro", margin: "10px" }}
               >
                 <CardContent>
                   <Typography variant="h5" component="div">
@@ -83,7 +78,7 @@ export default function AllActors({ actors, loadAllActors, loading }: any) {
                   >
                     <Button size="medium">Learn More</Button>
                     <Button
-                      name="delete_actor"
+                      data-testid="delete_actor"
                       size="large"
                       color="error"
                       onClick={() =>
@@ -97,7 +92,12 @@ export default function AllActors({ actors, loadAllActors, loading }: any) {
               </Card>
             </div>
           );
-        })}
-    </div>
+        })
+      ) : (
+        <Typography variant="body2" component="div" margin="20px">
+          Click the action above to load actors.
+        </Typography>
+      )}
+    </>
   );
 }

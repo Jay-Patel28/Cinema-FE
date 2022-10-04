@@ -29,7 +29,6 @@ export default function Actor() {
 
   return (
     <>
-      {/* <Navbar/> */}
       <Box
         sx={{
           border: "3px solid grey ",
@@ -57,7 +56,7 @@ export default function Actor() {
         )}
       </Box>
       <AddActor loadAllActors={loadAllActors} />
-      <DeleteActor />
+      {/* <DeleteActor /> */}
     </>
   );
 }

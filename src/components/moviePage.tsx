@@ -19,7 +19,6 @@ export default function MoviePage() {
       setTimeout(() => {
         setLoading(false);
       }, 500);
-      console.log(res.data);
       setMovie(res.data);
     });
   };

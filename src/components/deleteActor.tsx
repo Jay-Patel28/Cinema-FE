@@ -21,7 +21,6 @@ export default function DeleteActor() {
       .then((res) => {
         if (res.status === 200) {
           enqueueSnackbar("Actor Deleted successfully!", { variant: "success" });
-          console.log("Success");
         }
         return res;
       })

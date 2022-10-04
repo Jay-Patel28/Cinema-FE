@@ -7,35 +7,44 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { deleteMovieService } from "../commonFunctions/deleteMovie";
 import { allMoviesProps } from "../DTOs/allMoviesProps";
 import { movieDTO } from "../DTOs/movieDTO";
 
 export default function AllMovies(props: allMoviesProps) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  console.log(props);
+  const [movies, setMovies] = useState(props.movies);
 
-  const deleteMovie = (movieId: string, name: string) => {
-    axios
-      .delete(`https://localhost:7114/movie/${movieId}`)
-      .then((res) => {
-        if (res.status === 200 || res.status === 204) {
-          props.loadAllMovies();
-          enqueueSnackbar(`${name} has been deleted successfully!`, {
-            variant: "success",
-          });
-        } else {
-          enqueueSnackbar("Error deleting the movie!", { variant: "error" });
-        }
-      })
-      .catch((err) => {
-        enqueueSnackbar(`${err.response.data.errorMessage}`, {
-          variant: "error",
-        });
+  const deleteMovie = async (movieId: string, name: string) => {
+    const res = await deleteMovieService(movieId);
+    if (res?.status === 200 || res?.status === 204) {
+      // props.loadAllMovies();
+
+      setMovies(movies?.filter((movie) => movie.id !== movieId));
+      enqueueSnackbar(`${name} has been deleted successfully!`, {
+        variant: "success",
       });
+    } else {
+      const action = (snackbarId: any) => (
+        <>
+          <Button
+            sx={{ marginRight: "5px", color: "white" }}
+            variant="text"
+            size="small"
+            onClick={() => {
+              navigate(`/movie/${movieId}`);
+            }}
+          >
+            View
+          </Button>
+        </>
+      );
+      enqueueSnackbar(`${res.errorMessage}`, { variant: "error", action });
+    }
   };
   if (props.loading) {
     return (
@@ -53,7 +62,7 @@ export default function AllMovies(props: allMoviesProps) {
       </div>
     );
   }
-  const { movies } = props;
+  // const { movies } = props;
   return (
     <>
       {props &&
@@ -86,18 +95,23 @@ export default function AllMovies(props: allMoviesProps) {
                     }}
                   >
                     <Button
+                    variant="outlined"
                       size="small"
                       onClick={() => navigate(`${movie.id}`)}
                     >
                       Learn More
                     </Button>
                     <Button
-                      size="large"
+                    sx={{width:'5px'}}
+                      name="delMovies"
+                      variant="contained"
+                      size="small"
                       color="error"
                       onClick={() => deleteMovie(movie.id, movie.movieName)}
                     >
                       {" "}
-                      <DeleteForeverIcon />
+                      Delete
+                      {/* <DeleteForeverIcon /> */}
                     </Button>
                   </div>
                 </CardActions>

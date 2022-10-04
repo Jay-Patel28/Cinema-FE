@@ -1,15 +1,16 @@
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { handleAuth } from "../commonFunctions/authorised";
+import Login from "./login";
 // import "../index.css";
 
 export default function Navbar() {
   const [isLoggedIn, setLoggedIn] = useState(handleAuth);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-
+  const [showSignInPrompt, setShowSignInPrompt] = useState(false);
   const handleLogOut = () => {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
@@ -18,7 +19,6 @@ export default function Navbar() {
   };
   useEffect(() => {
     setLoggedIn(handleAuth);
-    
   });
 
   return (
@@ -87,27 +87,29 @@ export default function Navbar() {
               >
                 {!isLoggedIn ? (
                   <>
-                    <NavLink to="/login">
+                    <Button onClick={() => setShowSignInPrompt(true)}>
                       <Typography
                         variant="h6"
                         color="white"
                         component="div"
-                        sx={{ marginLeft: "30px", justifyContent: "right" }}
-                        className="register"
+                        sx={{ marginLeft: "30px", justifyContent: "center" }}
+                        className="SignIn"
                       >
                         SignIn
                       </Typography>
-                    </NavLink>
+                    </Button>
                     <NavLink to="/register">
+                    <Button onClick={() => setShowSignInPrompt(true)}>
                       <Typography
                         variant="h6"
                         color="white"
                         component="div"
-                        sx={{ marginLeft: "30px", justifyContent: "right" }}
+                        sx={{ marginLeft: "30px", justifyContent: "center" }}
                         className="register"
                       >
                         Register
                       </Typography>
+                    </Button>
                     </NavLink>
                   </>
                 ) : (
@@ -128,6 +130,7 @@ export default function Navbar() {
             </div>
           </Toolbar>
         </AppBar>
+        {showSignInPrompt && <Login />}
       </Box>
     </>
   );

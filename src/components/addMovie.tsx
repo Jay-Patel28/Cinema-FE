@@ -1,63 +1,50 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import ActorsList from "./actorsList";
-import dayjs, { Dayjs } from "dayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { addMovieRequest } from "../commonFunctions/addMovie";
 import { actorDTO } from "../DTOs/actorDTO";
-import { actorwithId, addMovieDTO, movieDTO } from "../DTOs/movieDTO";
-
+import { addMovieDTO } from "../DTOs/movieDTO";
+import ActorsList from "./actorsList";
+import { Navigate, useNavigate } from "react-router-dom";
 interface propsInterface {
   loadAllMovies: Function;
 }
 
-
 export default function AddMovie(props: propsInterface) {
+  const navigate = useNavigate();
   const [movieName, setMovieName] = useState("");
   const [totalViews, setTotalViews] = useState(0);
   const [releaseDate, setReleaseDate] = useState(new Date());
-  const [added, setAdded] = useState(false);
-  const [addedFail, setAddedFail] = useState(false);
   const [inputList, setInputList] = useState([{}]);
 
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const handleOnChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    console.log("index: e: ", index, " ", e.target.value);
+  // const handleOnChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>,
+  //   index: number
+  // ) => {
 
-    const { value } = e.target;
-    console.log("value: 1", value);
-    const list = [...inputList];
-    list[index] = value;
-    setInputList(list);
-    console.log("inputList: ", inputList);
-  };
+  //   const { value } = e.target;
+  //   const list = [...inputList];
+  //   list[index] = value;
+  //   setInputList(list);
+  // };
 
   const handleMovieNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMovieName(e.target.value);
   };
   const handleViewsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTotalViews(parseInt(e.target.value));
-    console.log("e.target.value: ", e.target.value);
   };
 
   const setActorsInputFromChild = (list: Array<actorDTO>) => {
-    console.log("setActorsInputFromChild: ", list);
     setInputList(list);
   };
 
   const addActor = async () => {
-    console.log("inputList: ", inputList);
     const filtered = inputList.filter(function (el) {
       return el != null;
     });
-    console.log("filtered: ", filtered);
 
     const actors: any = filtered.map((actorid) => {
       if (actorid !== null) {
@@ -73,36 +60,53 @@ export default function AddMovie(props: propsInterface) {
       actorDTOs: actors,
     };
 
-    console.log("actors: ", actors);
     addRequest(movie);
   };
 
   const addRequest = async (data: addMovieDTO) => {
-    axios
-      .post("https://localhost:7114/movie", data, {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          props.loadAllMovies();
-          enqueueSnackbar("Movie is Added successfully!", {
-            variant: "success",
-          });
-          console.log("Success Added Movie");
-        }
-        setAdded(true);
-        return res;
-      })
-      .catch((err) => {
-        console.log("err: ", err);
-        if (err.response.status !== 200) {
-          setAddedFail(true);
-        }
+    const res = await addMovieRequest(data);
+    if (res?.status === 200) {
+      props.loadAllMovies();
+
+      const action = (snackbarId: any) => (
+        <>
+          <Button
+            sx={{ marginRight: "5px", color: "white" }}
+            variant="text"
+            size="small"
+            onClick={() => {
+              navigate(`/movie/${res.movie.id}`);
+            }}
+          >
+            View
+          </Button>
+          <Button
+            sx={{ marginRight: "5px", color: "white" }}
+            variant="text"
+            color="error"
+            size="small"
+            onClick={() => {
+              closeSnackbar(snackbarId);
+            }}
+          >
+            Dismiss
+          </Button>
+        </>
+      );
+
+      enqueueSnackbar("Movie is Added successfully!", {
+        variant: "success",
+        action,
       });
+    } else {
+      enqueueSnackbar("Error adding the movie!", {
+        variant: "error",
+      });
+    }
+    // });
   };
 
   // const handleReleaseChange = (newValue: string) => {
-  //   console.log("newValue: ", newValue);
   // };
   return (
     <>
@@ -119,6 +123,7 @@ export default function AddMovie(props: propsInterface) {
             </Grid>
             <Grid item xs={4}>
               <TextField
+                data-testid="movieNameInput"
                 id="outlined-basic"
                 label="Movie Name"
                 variant="outlined"
@@ -127,6 +132,7 @@ export default function AddMovie(props: propsInterface) {
             </Grid>
             <Grid item xs={4}>
               <TextField
+                data-testid="movieViewsInput"
                 id="outlined-basic"
                 label="Total views"
                 variant="outlined"
@@ -141,16 +147,6 @@ export default function AddMovie(props: propsInterface) {
                 // onChange={handleReleaseChange}
               />
             </Grid>
-            {/* 
-
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DesktopDatePicker
-          label="Date desktop"
-          inputFormat="DD/MM/YYYY"
-          value={moment().format() }
-          onChange={handleReleaseChange}
-          renderInput={(params) => <TextField {...params} />}
-        /></LocalizationProvider> */}
 
             <Grid item xs={15}>
               <Typography variant="h5" component="div">
@@ -159,15 +155,16 @@ export default function AddMovie(props: propsInterface) {
             </Grid>
 
             <ActorsList setActorsInputFromChild={setActorsInputFromChild} />
-
             <Grid item xs={15}>
               <Button
+                sx={{ marginTop: "20px" }}
                 onClick={addActor}
                 size="large"
                 variant="contained"
                 color="success"
+                data-testid="addMovieButton"
               >
-                Add
+                Add Movie
               </Button>
             </Grid>
           </Grid>

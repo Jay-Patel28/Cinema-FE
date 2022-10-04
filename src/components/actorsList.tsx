@@ -1,37 +1,40 @@
 import {
   Box,
+  Button,
   Checkbox,
   FormControlLabel,
   Grid,
+  TextField,
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { SyntheticEvent, useEffect, useState } from "react";
-import { SyntheticEventData } from "react-dom/test-utils";
+import { useEffect, useState } from "react";
 import { actorDTO } from "../DTOs/actorDTO";
+import { newActorDTO } from "../DTOs/newActorDTO";
+import { addActorRequest } from "../commonFunctions/addActor";
 import ProgressBar from "./Progressbar";
+import QuickAddActor from "./quickAddActor";
 interface propsInterface {
   setActorsInputFromChild: Function;
 }
 
 export default function ActorsList(props: propsInterface) {
-  const [allActors, setAllActors] = useState([]);
+  const [allActors, setAllActors] = useState<Array<actorDTO>>([]);
   const [inputList, setInputList] = useState<Array<string>>([]);
 
   useEffect(() => {
     axios.get("https://localhost:7114/actors").then((res) => {
       setTimeout(() => {
         setAllActors(res.data);
-        console.log("res.data: ", res.data);
       }, 300);
     });
   }, []);
 
-  useEffect(() => {
-    console.log("inputList: l ", inputList);
-  });
+  const addNewActorToList = async (actor: actorDTO) => {
+    setAllActors([...allActors, actor]);
+  };
 
-  const handleChecked = (index: number,e: any) => {
+  const handleChecked = (index: number, e: any) => {
     const value = e.target.value;
     const target = e.target as HTMLInputElement;
     const isChecked: boolean = target.checked;
@@ -42,13 +45,11 @@ export default function ActorsList(props: propsInterface) {
       }
       list[index] = value;
       setInputList(list);
-      console.log("list: in if ", inputList);
     } else {
       list.filter((item) => item !== value);
       list.splice(index, 1);
       setInputList(list);
     }
-    console.log("inputList: inChild ", inputList);
     props.setActorsInputFromChild(list);
   };
 
@@ -67,8 +68,7 @@ export default function ActorsList(props: propsInterface) {
                   label={actor.firstName}
                   value={actor.actorId}
                   onChange={(e) => {
-                    console.log("e: ", e);
-                    handleChecked(index,e);
+                    handleChecked(index, e);
                   }}
                 />
               );
@@ -84,6 +84,7 @@ export default function ActorsList(props: propsInterface) {
           )}
         </Grid>
       </Box>
+      <QuickAddActor addNewActorToList={addNewActorToList} />
     </>
   );
 }

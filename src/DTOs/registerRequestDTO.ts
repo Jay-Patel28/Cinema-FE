@@ -1,5 +1,5 @@
-export interface registerRequestDTO{
-    username: string,
-    email:string,
-    password: string,
-}
+export interface RegistrationRequestDTO {
+    username: string;
+    email: string;
+    password: string;
+  }

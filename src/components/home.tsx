@@ -17,7 +17,6 @@ export default function Home() {
   //     setSearchResults([]);
   //   }
   //   axios.get(`https://localhost:7114/movie/q/${search}`).then((res: any) => {
-  //     console.log("res: ", res.data);
   //     if (res === null) {
   //       return null;
   //     }
@@ -39,7 +38,7 @@ export default function Home() {
             style={{ maxHeight: "600px" }}
           />
         </div>
-        <div className="text-on-image" style={{ maxHeight: "200px" ,width:"95%"}}>
+        <div className="text-on-image" style={{color:'white',maxHeight: "200px" ,width:"100%"}}>
           <h2> Hot Release this week </h2>
           <h5> On HBO </h5>
         </div>

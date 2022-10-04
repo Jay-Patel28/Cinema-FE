@@ -29,12 +29,6 @@ export default function AddActor(props: propsInterface) {
   };
 
   const addActor = async () => {
-    // const res: any = await addRequest({
-    //   FirstName: firstName,
-    //   LastName: lastName,
-    //   Wealth: wealth,
-    // });
-
     const newActor: newActorDTO = {
       FirstName: firstName,
       LastName: lastName,
@@ -42,36 +36,14 @@ export default function AddActor(props: propsInterface) {
     };
 
     const response: actorDTO = await addActorRequest(newActor);
-    console.log("response: ssssssssssss", response);
     if (response !== null) {
       props.loadAllActors();
       enqueueSnackbar(`${response.firstName} Added successfully!`, { variant: "success" });
     } else {
-      enqueueSnackbar("Error!", { variant: "error" });
+      enqueueSnackbar("Error! Please try Again.", { variant: "error" });
     }
   };
 
-  // const addRequest = async (actor: newActorDTO) => {
-  // axios
-  //   .post("https://localhost:7114/actor", data, {
-  //     headers: { "Content-Type": "application/json" },
-  //   })
-  //   .then((res) => {
-  //     if (res.status === 200) {
-  //       props.loadAllActors();
-  //       enqueueSnackbar("Actor Added successfully!", { variant: "success" });
-  //       console.log("Success");
-  //     }
-  //     return res;
-  //   })
-  //   .catch((err) => {
-  //     console.log("err: ", err);
-  //     if (err.response.status !== 200) {
-  //       enqueueSnackbar("Error!", { variant: "error" });
-  //     }
-  //   });
-  // const newActor = addActorRequest(actor);
-  // };
   return (
     <>
       <Box
@@ -109,6 +81,7 @@ export default function AddActor(props: propsInterface) {
                 id="outlined-basic"
                 label="Total Wealth"
                 variant="outlined"
+                type='number'
                 onChange={handleWealthChange}
               />
             </Grid>
