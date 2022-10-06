@@ -1,4 +1,4 @@
-import DeleteForeverIcon from "@mui/icons-material/DeleteForeverTwoTone";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Button,
   Card,
@@ -78,6 +78,7 @@ export default function AllActors({ actors, loadAllActors, loading }: any) {
                   >
                     <Button size="medium">Learn More</Button>
                     <Button
+                    startIcon={<DeleteIcon />}
                       data-testid="delete_actor"
                       size="large"
                       color="error"
@@ -85,7 +86,7 @@ export default function AllActors({ actors, loadAllActors, loading }: any) {
                         deleteActor(actor.actorId, actor.firstName)
                       }
                     >
-                      <DeleteForeverIcon />
+
                     </Button>
                   </div>
                 </CardActions>

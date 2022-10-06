@@ -75,7 +75,7 @@ export default function AddMovie(props: propsInterface) {
             variant="text"
             size="small"
             onClick={() => {
-              navigate(`/movie/${res.movie.id}`);
+              navigate(`/movie/${res.movie?.id}`);
             }}
           >
             View

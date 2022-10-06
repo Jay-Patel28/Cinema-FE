@@ -16,5 +16,7 @@ export async function addMovieRequest(movieToAdd: addMovieDTO) {
     );
     const movie: movieDTO = newMovie.data;
     return { status: newMovie.status, movie: movie };
-  } catch (err) {}
+  } catch (err) {
+    return { status: 400, movie: null };
+  }
 }

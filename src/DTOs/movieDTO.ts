@@ -9,7 +9,7 @@ export interface movieDTO {
   movieName: string;
   totalViews: number;
   releaseDate?: string;
-  actorDTOs?: Array<actorDTO | actorwithId>;
+  actorDTOs?: Array<actorDTO | actorwithId> | null;
 }
 
 export interface moviebyIdDTO {

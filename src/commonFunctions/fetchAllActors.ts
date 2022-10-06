@@ -3,6 +3,5 @@ import { actorDTO } from "../DTOs/actorDTO";
 
 export async function fetchAllActors(): Promise<Array<actorDTO>> {
   const response = await axios.get("https://localhost:7114/actors");
-  console.log('response: ');
   return response.data;
 }

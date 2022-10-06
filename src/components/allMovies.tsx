@@ -1,4 +1,4 @@
-import DeleteForeverIcon from "@mui/icons-material/DeleteForeverTwoTone";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Button,
   Card,
@@ -102,7 +102,7 @@ export default function AllMovies(props: allMoviesProps) {
                       Learn More
                     </Button>
                     <Button
-                    sx={{width:'5px'}}
+                    startIcon={<DeleteIcon />}
                       name="delMovies"
                       variant="contained"
                       size="small"

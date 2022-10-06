@@ -22,11 +22,15 @@ export default function Movie() {
 
   const loadAllMovies = async () => {
     setLoading(true);
-    const res: Array<movieDTO> = await fetchAllMovies();
-    console.log("res: ", res);
+    const res = await fetchAllMovies();
+    if (res.status === 200) {    console.log("INININ");
+      setAllMovies(res.data);
+      setLoading(false);
+    } else {
+      console.log(res.data);
 
-    setAllMovies(res);
-    setLoading(false);
+      setLoading(false);
+    }
   };
 
   return (
