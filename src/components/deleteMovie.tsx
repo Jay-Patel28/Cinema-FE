@@ -68,7 +68,7 @@ export default function DeleteMovie() {
                 variant="contained"
                 color="error"
               >
-                Delete
+                Delete By Id
               </Button>
             </Grid>
 

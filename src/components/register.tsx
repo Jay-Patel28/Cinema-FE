@@ -16,7 +16,10 @@ import { useSnackbar } from "notistack";
 export default function Register() {
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(true);
-  const [regError, setRegError] = useState(false);
+  const [regError, setRegError] = useState({
+    isRegError: false,
+    errorMessage: null,
+  });
   const [email, setEmail] = useState("");
 
   const [uName, setuName] = useState("");
@@ -26,20 +29,20 @@ export default function Register() {
   };
   const navigate = useNavigate();
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setRegError(false);
+    setRegError({ ...regError, isRegError: false });
     setEmail(e.target.value);
   };
 
   const handleUsernameChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setRegError(false);
+    setRegError({ ...regError, isRegError: false });
     setuName(e.target.value);
   };
 
   const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPass(e.target.value);
-    setRegError(false);
+    setRegError({ ...regError, isRegError: false });
   };
   const handleSubmit = async () => {
     const regData = {
@@ -52,11 +55,17 @@ export default function Register() {
 
   const registerRequest = async (data: RegistrationRequestDTO) => {
     const response = await RegReq(data);
+    console.log("response: jp ", response);
     if (response.status === 200) {
       enqueueSnackbar("Registered successfully!", { variant: "info" });
       navigate("/login");
     } else {
-      setRegError(true);
+      setRegError({
+        errorMessage: response?.response?.data?.message
+          ? response?.response?.data?.message
+          : response?.response?.data?.title,
+        isRegError: true,
+      });
     }
   };
 
@@ -114,12 +123,14 @@ export default function Register() {
               </DialogContent>
             </div>
           }
-          {regError && (
+          {regError.isRegError && (
             <>
-              <Alert variant="filled" severity="error">Registration Error!</Alert>
+              <Alert variant="filled" severity="error">
+                {regError.errorMessage}{" "}
+              </Alert>
             </>
           )}
-          <Alert severity="info" >
+          <Alert severity="info">
             Password should contain each of a special character, a number, an
             alphabate.{" "}
           </Alert>
