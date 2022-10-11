@@ -2,7 +2,7 @@ import { defineConfig } from "cypress";
 const cucumber = require("cypress-cucumber-preprocessor").default;
 
 export default defineConfig({
-  projectId: 'ekpiam',
+  projectId: 'ksrcar',
   e2e: {
     baseUrl: "http://localhost:3000",
 
