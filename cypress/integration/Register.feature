@@ -5,7 +5,6 @@ Feature: Register Functionality
     Given User navigate to the "Register" Page
     Then All login mandatory Register inputs should be visible
 
-  @focus
   Scenario: User should be able to Register when typed right credentials
     Given User navigate to the "Register" Page
     When User input Right Register Credentials

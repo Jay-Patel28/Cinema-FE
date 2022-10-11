@@ -3,11 +3,12 @@ Given("User navigate to the {string} Page", (page: string) => {
   cy.visit(`/${page}`);
 });
 
-
 //##################  When   ####################
 When("User input Right Login Credentials", () => {
-  cy.get("[data-testid='email_input']").type("Jay");
-  cy.get("[data-testid='pass_input']").type("Jay@28101998");
+  cy.fixture("loginInputs").then((loginCred) => {
+    cy.get("[data-testid='email_input']").type(loginCred.username);
+    cy.get("[data-testid='pass_input']").type(loginCred.password);
+  });
   cy.get("[data-testid='login_button']").click();
 });
 
@@ -16,7 +17,6 @@ When("User input Wrong Login Credentials", () => {
   cy.get("[data-testid='pass_input']").type("Wrong");
   cy.get("[data-testid='login_button']").click();
 });
-
 
 // ##################  Then  ####################
 Then("All login mandatory login inputs should be visible", () => {

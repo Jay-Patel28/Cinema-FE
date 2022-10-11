@@ -4,8 +4,10 @@
 Given("A user is logged in", () => {
   cy.visit("/");
   cy.get("button").contains("SignIn").click();
-  cy.get("[data-testid='email_input']").type("Jay");
-  cy.get("[data-testid='pass_input']").type("Jay@28101998");
+  cy.fixture("loginInputs").then((logonCred) => {
+    cy.get("[data-testid='email_input']").type(logonCred.username);
+    cy.get("[data-testid='pass_input']").type(logonCred.password);
+  });
   cy.get("[data-testid='login_button']").click();
   cy.contains("You are logged in!");
 });
