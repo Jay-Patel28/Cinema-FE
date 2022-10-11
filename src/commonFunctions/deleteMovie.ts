@@ -1,9 +1,10 @@
 import axios from "axios";
+import { baseUrl } from "../constants/global";
 
 export async function deleteMovieService(movieId: string) {
   try {
     const res: any = await axios.delete(
-      `https://localhost:7114/movie/${movieId}`
+      `${baseUrl}/movie/${movieId}`
     );
     return {
       status: res.status,

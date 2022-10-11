@@ -2,6 +2,7 @@ import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { baseUrl } from "../constants/global";
 
 export default function DeleteMovie() {
   const [delId, setDelId] = useState<string>("");
@@ -20,7 +21,7 @@ export default function DeleteMovie() {
 
   const delRequest = async (data: string) => {
     axios
-      .delete(`https://localhost:7114/movie/${data}`)
+      .delete(`${baseUrl}/movie/${data}`)
       .then((res) => {
         if (res.status === 200) {
           enqueueSnackbar("Movie Deleted successfully!", {

@@ -1,10 +1,11 @@
 import axios from "axios";
+import { baseUrl } from "../constants/global";
 import { RegistrationRequestDTO } from "../DTOs/registerRequestDTO";
 
 export const RegReq = async (data: RegistrationRequestDTO) => {
   try {
     const response = await axios.post(
-      "https://localhost:7114/api/Authenticate/register",
+      `${baseUrl}/api/Authenticate/register`,
       data,
       {
         headers: { "Content-Type": "application/json" },

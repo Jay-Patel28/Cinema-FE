@@ -5,6 +5,16 @@ Given("User navigate to the {string} Page", (page: string) => {
 
 //##################  When   ####################
 When("User input Right Register Credentials", () => {
+  //-------------------- Network Requests --------------------
+  cy.intercept(
+    {
+      method: "POST",
+      url: "api/Authenticate/register",
+    },
+    {
+      statusCode: 200,
+    }
+  ).as("registerUser");
   cy.get("[data-testid='reg_username']").type(
     `${(Math.random() + 1).toString(36).substring(7)}`
   );
@@ -24,8 +34,8 @@ When("User input username which is already registered", () => {
   //-------------------- Network Requests --------------------
   cy.intercept(
     {
-      method: "POST", // Route all GET requests
-      url: "api/Authenticate/register", // that have a URL that matches '/users/*'
+      method: "POST",
+      url: "api/Authenticate/register",
     },
     {
       statusCode: 500,

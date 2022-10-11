@@ -9,17 +9,17 @@ Feature: We want to verify if all the functionalities of our Movies page is Work
     When User types a Search
     Then User gets to see the results
 
-  Scenario: User should be able to see Load All movies button and clicking button should consequtively dispplay Hide All button
+  Scenario: User should be able to see Load All movies button and clicking button should consequtively display Hide All button
     Given User is able to see the Load All movies button
     When User clicks Load All Movie button
     Then User should be able see Hide All button
 
   Scenario: Add a new Movie along with adding a new Actor
     Given User is able to see all mandatory fields for adding a movie
-    Given User adds a new Actor "Cypress"
-    Given Added actor "Cypress" is displayed on page
-    Given User selects new Actor for movie
-    Given User Adds new Movie "JPMovie" with views "500"
+    And User adds a new Actor "Cypress"
+    And Added actor "Cypress" is displayed on page
+    And User selects new Actor for movie
+    And User Adds new Movie "JPMovie" with views "500"
     When User Adds a movie
     Then Movie addition success message should be displayed on screen
     Then New Movie "JPMovie" should be added on Page

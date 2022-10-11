@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { baseUrl } from '../constants/global';
 import { moviebyIdDTO } from "../DTOs/movieDTO";
 import ProgressBar from "./Progressbar";
 export default function MoviePage() {
@@ -15,7 +16,7 @@ export default function MoviePage() {
   const [movie, setMovie] = useState<moviebyIdDTO>();
 
   const loadMovieActors = () => {
-    axios.get(`https://localhost:7114/movie/${Movie.id}`).then((res) => {
+    axios.get(`${baseUrl}/movie/${Movie.id}`).then((res) => {
       setTimeout(() => {
         setLoading(false);
       }, 500);
@@ -26,7 +27,7 @@ export default function MoviePage() {
   const { enqueueSnackbar } = useSnackbar();
 
   const deleteActor = (actorId: string|void, name: string|void) => {
-    axios.delete(`https://localhost:7114/actor/${actorId}`).then((res) => {
+    axios.delete(`${baseUrl}/actor/${actorId}`).then((res) => {
       if (res.status === 200) {
         loadMovieActors();
         enqueueSnackbar(`${name} has been deleted successfully!`, {

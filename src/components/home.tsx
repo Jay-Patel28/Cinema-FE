@@ -16,7 +16,7 @@ export default function Home() {
   //   if (search === null) {
   //     setSearchResults([]);
   //   }
-  //   axios.get(`https://localhost:7114/movie/q/${search}`).then((res: any) => {
+  //   axios.get(`${baseUrl}/movie/q/${search}`).then((res: any) => {
   //     if (res === null) {
   //       return null;
   //     }

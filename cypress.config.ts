@@ -1,15 +1,18 @@
 import { defineConfig } from "cypress";
+const cucumber = require("cypress-cucumber-preprocessor").default;
 
 export default defineConfig({
   projectId: 'ekpiam',
   e2e: {
     baseUrl: "http://localhost:3000",
 
-
-    setupNodeEvents(on, config) {
-      return require("./cypress/plugins/index.ts")(on, config);
+    setupNodeEvents(on) {
+      const options = {
+        typescript: require.resolve("typescript"),
+      };
+      
+      on("file:preprocessor", cucumber(options));
     },
-    excludeSpecPattern: "*.ts",
     specPattern: "**/*.feature",
   },
 });
