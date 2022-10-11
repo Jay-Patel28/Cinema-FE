@@ -15,7 +15,6 @@ When("User input Right Register Credentials", () => {
       statusCode: 200,
     }
   ).as("registerUser");
-
   cy.fixture("registerInputs").then((registerCreds) => {
     registerCreds.userName = (Math.random() + 1).toString(36).substring(7);
     cy.get("[data-testid='reg_username']").type(registerCreds.userName);
@@ -23,6 +22,7 @@ When("User input Right Register Credentials", () => {
     cy.get("[data-testid='reg_password']").type(registerCreds.password);
   });
   cy.get("[data-testid='reg_submit']").click();
+  cy.wait("@registerUser");
 });
 
 When("User input Wrong Register Credentials", () => {
@@ -46,10 +46,12 @@ When("User input username which is already registered", () => {
       },
     }
   ).as("registerUser");
+
   cy.get("[data-testid='reg_username']").type("Jay");
   cy.get("[data-testid='reg_email']").type("jaypatel.ai98@gmail.com");
   cy.get("[data-testid='reg_password']").type("Jay@28101998");
   cy.get("[data-testid='reg_submit']").click();
+  cy.wait("@registerUser");
 });
 
 // ##################  Then  ####################
