@@ -54,7 +54,7 @@ export default function MovieSearch() {
       </Typography>
       <TextField
         data-testid="MovieSearchField"
-        id="standard-basic"
+        id="searchButton"
         label="Enter your search"
         color="secondary"
         onChange={(e) => handleMovieSearch(e)}

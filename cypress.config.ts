@@ -5,7 +5,7 @@ export default defineConfig({
   projectId: 'ksrcar',
   e2e: {
     baseUrl: "http://localhost:3000",
-
+    experimentalStudio: true,
     setupNodeEvents(on) {
       const options = {
         typescript: require.resolve("typescript"),

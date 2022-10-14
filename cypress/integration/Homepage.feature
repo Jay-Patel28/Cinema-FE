@@ -18,4 +18,8 @@ Feature: HomePage
     Scenario: User should see Movies page link on HomePage 
         Given User navigate to the Website
         Then User should see "Movies" link
+    
+    Scenario: User should be able to See and type in Search Field
+        Given User is able to see the search-field
+        Then User should be able to type in Search-field
 
