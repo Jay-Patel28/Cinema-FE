@@ -2,7 +2,7 @@ Feature: Register Functionality
     I want to test Register functionality. That Includes Register success as well as Register Failure.
 
   Scenario: User should be able to see all the Input fields for Register functionality
-    Given User navigate to the "Register" Page
+    Given User navigate to the "register" Page
     Then All login mandatory Register inputs should be visible
 
   Scenario: User should be able to Register when typed right credentials

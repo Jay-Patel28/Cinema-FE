@@ -9,5 +9,6 @@ const resp = await axios
 .post(`${baseUrl}/actor`, data, {
   headers: { "Content-Type": "application/json" },
 })
+console.log('resp: ', resp);
     return resp.data
 }
