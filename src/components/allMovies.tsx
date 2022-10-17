@@ -95,18 +95,19 @@ export default function AllMovies(props: allMoviesProps) {
                     }}
                   >
                     <Button
-                    variant="outlined"
+                      variant="outlined"
                       size="small"
                       onClick={() => navigate(`${movie.id}`)}
                     >
                       Learn More
                     </Button>
                     <Button
-                    startIcon={<DeleteIcon />}
+                      startIcon={<DeleteIcon />}
                       name="delMovies"
                       variant="contained"
                       size="small"
                       color="error"
+                      data-testid={movie.movieName}
                       onClick={() => deleteMovie(movie.id, movie.movieName)}
                     >
                       {" "}

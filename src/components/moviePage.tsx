@@ -1,42 +1,42 @@
-import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
+import SentimentDissatisfiedOutlinedIcon from "@mui/icons-material/SentimentDissatisfiedOutlined";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { removeActorFromMovieService } from "../commonFunctions/removeActorFromMovie";
+import { baseUrl } from "../constants/global";
 import { moviebyIdDTO } from "../DTOs/movieDTO";
+import AddActorsTOMOvie from "./AddActortoMovie";
 import ProgressBar from "./Progressbar";
 export default function MoviePage() {
-
-  
   useEffect(() => loadMovieActors, []);
   let Movie = useParams();
   const [isLoading, setLoading] = useState(true);
   const [movie, setMovie] = useState<moviebyIdDTO>();
 
   const loadMovieActors = () => {
-    axios.get(`https://localhost:7114/movie/${Movie.id}`).then((res) => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
+    axios.get(`${baseUrl}/movie/${Movie.id}`).then((res) => {
+      setLoading(false);
+
       setMovie(res.data);
     });
   };
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteActor = (actorId: string|void, name: string|void) => {
-    axios.delete(`https://localhost:7114/actor/${actorId}`).then((res) => {
-      if (res.status === 200) {
-        loadMovieActors();
-        enqueueSnackbar(`${name} has been deleted successfully!`, {
-          variant: "success",
-        });
-      } else {
-        enqueueSnackbar("Error deleting the movie!", { variant: "error" });
-      }
-    });
+  const removeActorFromMovie = async (actorId: string, name: string) => {
+    const res = await removeActorFromMovieService(actorId, Movie.id);
+    if (res.status === 200) {
+      loadMovieActors();
+      enqueueSnackbar(`${name} has been removed from this Movie!`, {
+        variant: "success",
+      });
+    } else {
+      enqueueSnackbar("Error removing the movie!", { variant: "error" });
+    }
   };
+
   return (
     <>
       <div style={{}}>
@@ -53,7 +53,31 @@ export default function MoviePage() {
         >
           Total views : <strong>{movie?.totalViews}</strong>
         </Typography>
+        <Box
+          component="form"
+          sx={{
+            p: 2,
+            bgcolor: "#ccd3d9",
+            display: "flow",
+            gridTemplateColumns: { md: "1fr 1fr" },
+            gap: 2,
+            margin: "30px",
+            borderRadius: "20px",
+            justifyContent: "center",
+            alignItems: "center",
+            minWidth: "300px",
+            maxWidth: "400px",
+          }}
+          noValidate
+          autoComplete="off"
+        >
 
+          <AddActorsTOMOvie
+            loadMovieActors={loadMovieActors}
+            movieId={Movie.id}
+            actorDTOs={movie?.actorDTOs}
+          />
+        </Box>
         <Box
           component="form"
           sx={{
@@ -118,10 +142,13 @@ export default function MoviePage() {
                             size="large"
                             color="error"
                             onClick={() =>
-                              deleteActor(actor.actorId, actor.firstName)
+                              removeActorFromMovie(
+                                actor.actorId,
+                                actor.firstName
+                              )
                             }
                           >
-                            DELETE{" "}
+                            REMOVE{" "}
                           </Button>
                         </div>
                       </CardContent>
@@ -130,15 +157,19 @@ export default function MoviePage() {
                 </div>
               );
             })}
-          {
-            (movie?.actorDTOs?.length === 0 && (
-              <>
-              <Typography variant="h6" component="div" color="white" sx={{marginLeft:"30px"}}>
-                No Registered actors found!   {'   '}
-                <SentimentDissatisfiedOutlinedIcon/>
-              </Typography></>
-            ))
-          }
+          {movie?.actorDTOs?.length === 0 && (
+            <>
+              <Typography
+                variant="h6"
+                component="div"
+                color="white"
+                sx={{ marginLeft: "30px" }}
+              >
+                No Registered actors found! {"   "}
+                <SentimentDissatisfiedOutlinedIcon />
+              </Typography>
+            </>
+          )}
           {isLoading && <ProgressBar />}
         </Box>
       </div>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { baseUrl } from "../constants/global";
 import { loginRequestDTO } from "../DTOs/loginRequestDTO";
 
 interface responseData {
@@ -14,7 +15,7 @@ export interface loginResponseDTO {
 export const LoginReq = async (data: loginRequestDTO) => {
   try {
     const response: any = await axios.post(
-      `https://localhost:7114/api/Authenticate/login`,
+      `${baseUrl}/api/Authenticate/login`,
       data,
       {
         headers: { "Content-Type": "application/json" },

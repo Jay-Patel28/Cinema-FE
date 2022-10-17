@@ -1,8 +1,8 @@
+import { baseUrl } from './../constants/global';
 import axios from "axios";
-import { movieDTO } from "./../DTOs/movieDTO";
 
 export async function fetchAllMovies() {
-  const response = await axios.get("https://localhost:7114/movies");
+  const response = await axios.get(`${baseUrl}/movies`);
   if (response.status === 200) {
     return { status: 200, data: response.data };
   }

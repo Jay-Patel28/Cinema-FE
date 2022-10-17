@@ -2,6 +2,7 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { baseUrl } from "../constants/global";
 
 export default function DeleteActor() {
   const [delId, setDelId] = useState<string>("");
@@ -17,7 +18,7 @@ export default function DeleteActor() {
 
   const delRequest = async (data: string) => {
     axios
-      .delete(`https://localhost:7114/actor/${data}`)
+      .delete(`${baseUrl}/actor/${data}`)
       .then((res) => {
         if (res.status === 200) {
           enqueueSnackbar("Actor Deleted successfully!", { variant: "success" });

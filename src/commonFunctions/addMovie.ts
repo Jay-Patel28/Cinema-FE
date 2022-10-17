@@ -1,4 +1,5 @@
 import axios from "axios";
+import { baseUrl } from "../constants/global";
 import { addMovieDTO, movieDTO } from "../DTOs/movieDTO";
 
 interface outputDTO {
@@ -8,7 +9,7 @@ interface outputDTO {
 export async function addMovieRequest(movieToAdd: addMovieDTO) {
   try {
     const newMovie = await axios.post(
-      "https://localhost:7114/movie",
+      `${baseUrl}/movie`,
       movieToAdd,
       {
         headers: { "Content-Type": "application/json" },

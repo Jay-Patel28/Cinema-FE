@@ -9,24 +9,6 @@ export default function Home() {
   const [isLoading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
 
-
-  // const handleMovieSearch = (e: any) => {
-  //   setLoading(true);
-  //   const search = e.target.value;
-  //   if (search === null) {
-  //     setSearchResults([]);
-  //   }
-  //   axios.get(`https://localhost:7114/movie/q/${search}`).then((res: any) => {
-  //     if (res === null) {
-  //       return null;
-  //     }
-  //     setTimeout(() => {
-  //       setLoading(false);
-  //       setSearchResults(res.data);
-  //     }, 700);
-  //   });
-  // };
-
   return (
     <>
       <div className="head-text">
@@ -38,14 +20,16 @@ export default function Home() {
             style={{ maxHeight: "600px" }}
           />
         </div>
-        <div className="text-on-image" style={{color:'white',maxHeight: "200px" ,width:"100%"}}>
+        <div
+          className="text-on-image"
+          style={{ color: "white", maxHeight: "200px", width: "100%" }}
+        >
           <h2> Hot Release this week </h2>
           <h5> On HBO </h5>
         </div>
       </div>
-      
-<MovieSearch/>
 
+      <MovieSearch />
     </>
   );
 }

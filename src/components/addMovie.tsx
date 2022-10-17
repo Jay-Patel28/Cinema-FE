@@ -1,11 +1,11 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { addMovieRequest } from "../commonFunctions/addMovie";
 import { actorDTO } from "../DTOs/actorDTO";
 import { addMovieDTO } from "../DTOs/movieDTO";
 import ActorsList from "./actorsList";
-import { Navigate, useNavigate } from "react-router-dom";
 interface propsInterface {
   loadAllMovies: Function;
 }

@@ -14,6 +14,7 @@ import { newActorDTO } from "../DTOs/newActorDTO";
 import { addActorRequest } from "../commonFunctions/addActor";
 import ProgressBar from "./Progressbar";
 import QuickAddActor from "./quickAddActor";
+import { baseUrl } from "../constants/global";
 interface propsInterface {
   setActorsInputFromChild: Function;
 }
@@ -23,7 +24,7 @@ export default function ActorsList(props: propsInterface) {
   const [inputList, setInputList] = useState<Array<string>>([]);
 
   useEffect(() => {
-    axios.get("https://localhost:7114/actors").then((res) => {
+    axios.get(`${baseUrl}/actors`).then((res) => {
       setTimeout(() => {
         setAllActors(res.data);
       }, 300);

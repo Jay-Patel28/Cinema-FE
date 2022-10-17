@@ -1,19 +1,17 @@
 import axios from "axios";
 import { baseUrl } from "../constants/global";
 
-export async function deleteMovieService(movieId: string) {
+export async function removeActorFromMovieService(actorId: string, movieId: any) {
   try {
     const res: any = await axios.delete(
-      `${baseUrl}/movie/${movieId}`
+      `${baseUrl}/movie/${movieId}/actor/${actorId}`
     );
     return {
       status: res.status,
-      movie: res.data,
     };
   } catch (err: any) {
     return {
       status: err.status,
-      errorMessage: err.response.data.errorMessage,
     };
   }
 }
