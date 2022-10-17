@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { removeActorFromMovieService } from "../commonFunctions/removeActorFromMovie";
 import { baseUrl } from "../constants/global";
 import { moviebyIdDTO } from "../DTOs/movieDTO";
+import AddActorsTOMOvie from "./AddActortoMovie";
 import ProgressBar from "./Progressbar";
 export default function MoviePage() {
   useEffect(() => loadMovieActors, []);
@@ -16,9 +17,8 @@ export default function MoviePage() {
 
   const loadMovieActors = () => {
     axios.get(`${baseUrl}/movie/${Movie.id}`).then((res) => {
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
+      setLoading(false);
+
       setMovie(res.data);
     });
   };
@@ -53,7 +53,31 @@ export default function MoviePage() {
         >
           Total views : <strong>{movie?.totalViews}</strong>
         </Typography>
+        <Box
+          component="form"
+          sx={{
+            p: 2,
+            bgcolor: "#ccd3d9",
+            display: "flow",
+            gridTemplateColumns: { md: "1fr 1fr" },
+            gap: 2,
+            margin: "30px",
+            borderRadius: "20px",
+            justifyContent: "center",
+            alignItems: "center",
+            minWidth: "300px",
+            maxWidth: "400px",
+          }}
+          noValidate
+          autoComplete="off"
+        >
 
+          <AddActorsTOMOvie
+            loadMovieActors={loadMovieActors}
+            movieId={Movie.id}
+            actorDTOs={movie?.actorDTOs}
+          />
+        </Box>
         <Box
           component="form"
           sx={{
