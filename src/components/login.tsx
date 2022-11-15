@@ -7,7 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField
+  TextField,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
@@ -15,22 +15,19 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { LoginReq } from "../commonFunctions/loginService";
 import { loginRequestDTO } from "../DTOs/loginRequestDTO";
 
-export const LoginDialog = () => {
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+export const LoginDialog = ({ setShowSignInPrompt }: any) => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const [open, setOpen] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [Isunauthorized, setUnauthorized] = useState(false);
 
   const handleClose = () => {
-    setOpen(false);
+    setShowSignInPrompt(false);
   };
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUnauthorized(false);
     setEmail(e.target.value);
@@ -56,6 +53,7 @@ export const LoginDialog = () => {
       setLoggedIn(true);
       enqueueSnackbar("You are logged in!", { variant: "success" });
       navigate(state ? state : "/");
+      setShowSignInPrompt(false);
     } else {
       setUnauthorized(true);
     }
@@ -65,7 +63,7 @@ export const LoginDialog = () => {
     <>
       <form onSubmit={handleSubmit}>
         <Dialog
-          open={open}
+          open={true}
           onClose={handleClose}
           sx={{ minWidth: "300px", minHeight: "300px" }}
         >
@@ -139,8 +137,8 @@ export const LoginDialog = () => {
                   <Button onClick={handleClose}>Cancel</Button>
                 </NavLink>
                 <Button
+                  disabled={!(pass.length !== 0 && email.length !== 0)}
                   data-testid="login_button"
-                  disabled={isLoggedIn}
                   variant="contained"
                   onClick={handleSubmit}
                   type="submit"
@@ -156,6 +154,6 @@ export const LoginDialog = () => {
       {}
     </>
   );
-}
+};
 
 export default LoginDialog;

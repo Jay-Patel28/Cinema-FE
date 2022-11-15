@@ -1,5 +1,13 @@
 import SentimentDissatisfiedOutlinedIcon from "@mui/icons-material/SentimentDissatisfiedOutlined";
-import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
@@ -39,45 +47,25 @@ export default function MoviePage() {
 
   return (
     <>
-      <div style={{}}>
-        <Typography
-          variant="h2"
-          sx={{ margin: "30px", fontFamily: "Helvetica", fontWeight: "bold" }}
-          color="red"
-        >
-          {movie?.movieName}
-        </Typography>
-        <Typography
-          variant="h5"
-          sx={{ margin: "30px", fontFamily: "Helvetica" }}
-        >
-          Total views : <strong>{movie?.totalViews}</strong>
-        </Typography>
-        <Box
-          component="form"
-          sx={{
-            p: 2,
-            bgcolor: "#ccd3d9",
-            display: "flow",
-            gridTemplateColumns: { md: "1fr 1fr" },
-            gap: 2,
-            margin: "30px",
-            borderRadius: "20px",
-            justifyContent: "center",
-            alignItems: "center",
-            minWidth: "300px",
-            maxWidth: "400px",
-          }}
-          noValidate
-          autoComplete="off"
-        >
-
-          <AddActorsTOMOvie
-            loadMovieActors={loadMovieActors}
-            movieId={Movie.id}
-            actorDTOs={movie?.actorDTOs}
-          />
-        </Box>
+      <Typography
+        variant="h2"
+        sx={{ margin: "30px", fontFamily: "Helvetica", fontWeight: "bold" }}
+        color="red"
+      >
+        {movie?.movieName}
+      </Typography>
+      <Typography variant="h5" sx={{ margin: "30px", fontFamily: "Helvetica" }}>
+        <Divider>
+          <Chip label="Overview" color="error" size="medium" />
+        </Divider>
+        Total views : <strong>{movie?.totalViews}</strong>
+        <br />
+        {`Total Actors : ${movie?.actorDTOs?.length}`}
+      </Typography>
+      <Divider>
+        <Chip variant="filled" color="info" label="Others" size="medium" />
+      </Divider>
+      <div style={{ display: "flex" }}>
         <Box
           component="form"
           sx={{
@@ -171,6 +159,30 @@ export default function MoviePage() {
             </>
           )}
           {isLoading && <ProgressBar />}
+        </Box>
+        <Box
+          component="form"
+          sx={{
+            p: 2,
+            height: "fit-content",
+            bgcolor: "#ccd3d9",
+            gridTemplateColumns: { md: "1fr 1fr" },
+            gap: 2,
+            margin: "30px",
+            borderRadius: "20px",
+            justifyContent: "center",
+            alignItems: "center",
+            minWidth: "300px",
+            maxWidth: "400px",
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <AddActorsTOMOvie
+            loadMovieActors={loadMovieActors}
+            movieId={Movie.id}
+            actorDTOs={movie?.actorDTOs}
+          />
         </Box>
       </div>
     </>

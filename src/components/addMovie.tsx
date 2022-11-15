@@ -16,19 +16,7 @@ export default function AddMovie(props: propsInterface) {
   const [totalViews, setTotalViews] = useState(0);
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [inputList, setInputList] = useState([{}]);
-
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-  // const handleOnChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  //   index: number
-  // ) => {
-
-  //   const { value } = e.target;
-  //   const list = [...inputList];
-  //   list[index] = value;
-  //   setInputList(list);
-  // };
 
   const handleMovieNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMovieName(e.target.value);
@@ -103,11 +91,8 @@ export default function AddMovie(props: propsInterface) {
         variant: "error",
       });
     }
-    // });
   };
 
-  // const handleReleaseChange = (newValue: string) => {
-  // };
   return (
     <>
       <Box

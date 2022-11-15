@@ -1,14 +1,6 @@
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-// import "../../src/App.css";
 import MovieSearch from "./movieSearch";
 
 export default function Home() {
-  const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
-
   return (
     <>
       <div className="head-text">
@@ -28,8 +20,9 @@ export default function Home() {
           <h5> On HBO </h5>
         </div>
       </div>
-
       <MovieSearch />
+      {/* Whatever you want to test and Play */}
+      {/* <PlayGround /> */}
     </>
   );
 }

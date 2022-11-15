@@ -5,7 +5,7 @@ import {
   CardActions,
   CardContent,
   CircularProgress,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
@@ -22,8 +22,6 @@ export default function AllMovies(props: allMoviesProps) {
   const deleteMovie = async (movieId: string, name: string) => {
     const res = await deleteMovieService(movieId);
     if (res?.status === 200 || res?.status === 204) {
-      // props.loadAllMovies();
-
       setMovies(movies?.filter((movie) => movie.id !== movieId));
       enqueueSnackbar(`${name} has been deleted successfully!`, {
         variant: "success",
@@ -62,7 +60,6 @@ export default function AllMovies(props: allMoviesProps) {
       </div>
     );
   }
-  // const { movies } = props;
   return (
     <>
       {props &&
@@ -112,7 +109,6 @@ export default function AllMovies(props: allMoviesProps) {
                     >
                       {" "}
                       Delete
-                      {/* <DeleteForeverIcon /> */}
                     </Button>
                   </div>
                 </CardActions>

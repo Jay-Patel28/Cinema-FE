@@ -13,9 +13,9 @@ import { NavLink } from "react-router-dom";
 import { RegReq } from "../commonFunctions/registerService";
 import { RegistrationRequestDTO } from "../DTOs/registerRequestDTO";
 import { useSnackbar } from "notistack";
-export default function Register() {
+
+export default function Register({ setShowRegPrompt }: any) {
   const { enqueueSnackbar } = useSnackbar();
-  const [open, setOpen] = useState(true);
   const [regError, setRegError] = useState({
     isRegError: false,
     errorMessage: null,
@@ -25,7 +25,7 @@ export default function Register() {
   const [uName, setuName] = useState("");
   const [pass, setPass] = useState("");
   const handleClose = () => {
-    setOpen(false);
+    setShowRegPrompt(false);
   };
   const navigate = useNavigate();
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -73,7 +73,7 @@ export default function Register() {
     <>
       <form onSubmit={handleSubmit}>
         <Dialog
-          open={open}
+          open={true}
           onClose={handleClose}
           sx={{ minWidth: "300px", minHeight: "300px" }}
         >
@@ -141,6 +141,9 @@ export default function Register() {
               </Button>
             </NavLink>
             <Button
+              disabled={
+                !(pass.length !== 0 && uName.length !== 0 && email.length !== 0)
+              }
               data-testid="reg_submit"
               variant="contained"
               onClick={handleSubmit}

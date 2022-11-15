@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { handleAuth } from "../commonFunctions/authorised";
 import Login from "./login";
+import Register from "./register";
 // import "../index.css";
 
 export default function Navbar() {
@@ -11,6 +12,7 @@ export default function Navbar() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [showSignInPrompt, setShowSignInPrompt] = useState(false);
+  const [showRegPrompt, setShowRegPrompt] = useState(false);
   const handleLogOut = () => {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
@@ -98,8 +100,7 @@ export default function Navbar() {
                         SignIn
                       </Typography>
                     </Button>
-                    <NavLink to="/register">
-                    <Button onClick={() => setShowSignInPrompt(true)}>
+                    <Button onClick={() => setShowRegPrompt(true)}>
                       <Typography
                         variant="h6"
                         color="white"
@@ -110,7 +111,6 @@ export default function Navbar() {
                         Register
                       </Typography>
                     </Button>
-                    </NavLink>
                   </>
                 ) : (
                   <>
@@ -130,7 +130,10 @@ export default function Navbar() {
             </div>
           </Toolbar>
         </AppBar>
-        {showSignInPrompt && <Login />}
+        {showSignInPrompt && (
+          <Login setShowSignInPrompt={setShowSignInPrompt} />
+        )}
+        {showRegPrompt && <Register setShowRegPrompt={setShowRegPrompt} />}
       </Box>
     </>
   );

@@ -9,27 +9,19 @@ export default function AddActorsTOMOvie({
   movieId,
   actorDTOs,
 }: any) {
-  console.log("actorDTOs:ssssssssss ", actorDTOs);
   const [availableActors, setAvailableActors] = useState<Array<actorDTO>>([]);
 
   async function fetchAllActorsReq() {
     let actors = await fetchAllActors();
-    console.log("actors:pppppp ", actors);
 
-    console.log("actorDTOs: ", actorDTOs);
     if (actorDTOs?.length) {
       actorDTOs.forEach((actorOfMovie: actorDTO) => {
-        console.log("actorOfMovie.actorId: ", actorOfMovie.actorId);
         actors = actors.filter(
           (actor) => actor.actorId !== actorOfMovie.actorId
         );
       });
     }
-    console.log("actors: ", actors);
     setAvailableActors(actors);
-
-    console.log("actors: ", actors);
-    // setAvailableActors(actors);
   }
 
   async function addActorToMovie(actorId: string) {
@@ -45,20 +37,20 @@ export default function AddActorsTOMOvie({
 
   return (
     <>
-      <Typography>
+      <Typography variant="subtitle1" fontFamily="helvetica">
         Is Cast missing an Actor? You can add from right here!
+        {availableActors.map((actor: actorDTO) => {
+          return (
+            <Chip
+              sx={{ margin: "5px" }}
+              label={`${actor.firstName} ${actor.lastName}`}
+              color="success"
+              size="medium"
+              onClick={() => addActorToMovie(actor.actorId)}
+            />
+          );
+        })}
       </Typography>
-      {availableActors.map((actor: actorDTO) => {
-        return (
-          <Chip
-            sx={{ margin: "5px" }}
-            label={`${actor.firstName} ${actor.lastName}`}
-            color="success"
-            size="medium"
-            onClick={() => addActorToMovie(actor.actorId)}
-          />
-        );
-      })}
     </>
   );
 }
