@@ -14,5 +14,6 @@ jobs:
 
   Cypress-tests:
     steps:
+      - uses: actions/checkout@v2
       - name: Run cypress in whichever environment
       - run: npx cypress run
