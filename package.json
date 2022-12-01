@@ -7,19 +7,16 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.6",
-    "@mui/x-date-pickers": "^5.0.2",
-    "@tanstack/react-query": "^4.3.9",
-    "@tanstack/react-query-devtools": "^4.3.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/lodash": "^4.14.185",
     "@types/node": "^16.11.59",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "axios": "^0.27.2",
     "axios-mock-adapter": "^1.21.2",
     "dayjs": "^1.11.5",
+    "dotenv": "^16.0.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-react-16-adapter-setup": "^0.1.0",
@@ -27,8 +24,6 @@
     "jest-environment-jsdom": "^29.0.3",
     "jest-enzyme": "^7.1.2",
     "jest-mock-axios": "^4.7.0-beta",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.4",
     "notistack": "^2.0.5",
     "npm": "^8.19.2",
     "process": "^0.11.10",
@@ -43,7 +38,7 @@
     "nonGlobalStepDefinitions": true
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --env=dev",
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
@@ -68,15 +63,12 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.19.1",
-    "@babel/preset-env": "^7.19.1",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.18.6",
     "@types/cypress-cucumber-preprocessor": "^4.0.1",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^29.0.3",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.0.3",
+    "cross-env": "^7.0.3",
     "cypress": "^10.9.0",
     "cypress-cucumber-preprocessor": "^4.3.1",
     "dts-css-modules-loader": "^2.0.1",
@@ -85,8 +77,6 @@
     "react-test-renderer": "^18.2.0",
     "ts-jest": "^29.0.2",
     "ts-loader": "^9.4.1",
-    "typescript": "^4.8.4",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "typescript": "^4.8.4"
   }
 }
