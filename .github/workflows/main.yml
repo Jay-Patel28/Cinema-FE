@@ -3,9 +3,6 @@ name: Cypress Tests with Install Job and UI Chrome Job x 5
 on: [push]
 
 jobs:
-  install:
-  # ...
-
   cypress-run:
     runs-on: ubuntu-latest
     container: cypress/browsers:node16.14.0-chrome87-ff82
