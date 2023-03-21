@@ -8,11 +8,6 @@ jobs:
         uses: actions/checkout@v3
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Download the build folders
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: build
 
       - name: 'Cypress Tests - Chrome'
         uses: cypress-io/github-action@v5 # use the explicit version number
