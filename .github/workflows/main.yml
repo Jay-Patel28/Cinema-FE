@@ -9,8 +9,9 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Install dependencies
-        uses: cypress-io/github-action@v5
-        with:
+       with:
+          node-version: "16"
+          cache: "npm"
           # just perform install
           runTests: false
       - run: npm install
@@ -18,7 +19,7 @@ jobs:
         uses: cypress-io/github-action@v5 # use the explicit version number
         with:
           # we have already installed all dependencies above
-          # install: false
+          install: false
           start: npm run start
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
