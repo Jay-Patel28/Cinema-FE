@@ -28,21 +28,21 @@
 #           spec: cypress/integration/*
 
 name: Cypress Tests
-on: [push]
+on:
+  push
 jobs:
- Cypress-Test:
-   runs-on: ubuntu-latest
-   steps:
-     - name: Checkout GitCode
-       uses: actions/checkout@v2
-     - name: Setup Node
+  Cypress-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitCode
+        uses: actions/checkout@v2
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 16.14.2
       - run: node -v
-     - name: Run Cypress Test
-       uses: cypress-io/github-action@v4
-       with:
-         command: npx cypress run
-         browser: chrome
-    
+      - name: Run Cypress Test
+        uses: cypress-io/github-action@v4
+        with:
+          command: npx cypress run
+          browser: chrome
