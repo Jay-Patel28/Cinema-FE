@@ -1,32 +1,3 @@
-# name: End-to-end tests
-# on: push
-# jobs:
-#   cypress-run:
-#     runs-on: ubuntu-22.04
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
-#       # Install NPM dependencies, cache them correctly
-#       # and run all Cypress tests
-#       - name: Install dependencies
-#         with:
-#           # just perform install
-#           runTests: false
-#       - run: npm install
-#       - name: 'Cypress Tests - Chrome'
-#         uses: cypress-io/github-action@v5 # use the explicit version number
-#         with:
-#           # we have already installed all dependencies above
-#           install: false
-#           start: npm run start
-#           wait-on: 'http://localhost:3000'
-#           wait-on-timeout: 120
-#           browser: chrome
-#           record: true
-#           parallel: true
-#           group: 'UI - Chrome'
-#           spec: cypress/integration/*
-
 name: Cypress Tests
 
 on:
@@ -58,7 +29,5 @@ jobs:
           # record: true
           # parallel: true
           # group: 'UI - Chrome'
-          spec: cypress/integration/Homepage.feature
+          spec: cypress/integration/*.feature
           # config-file: Cinema-FE/cypress-config.ts
-
-
