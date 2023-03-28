@@ -27,7 +27,7 @@ jobs:
           wait-on-timeout: 1200
           browser: chrome
           # record: true
-          # parallel: true
+          parallel: true
           # group: 'UI - Chrome'
           spec: cypress/integration/*.feature
           # config-file: Cinema-FE/cypress-config.ts
