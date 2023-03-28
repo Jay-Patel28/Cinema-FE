@@ -26,7 +26,7 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 1200
           browser: chrome
-          # record: true
+          record: true
           parallel: true
           # group: 'UI - Chrome'
           spec: cypress/integration/*.feature

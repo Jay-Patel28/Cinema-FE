@@ -2,7 +2,7 @@ import { defineConfig } from "cypress";
 const cucumber = require("cypress-cucumber-preprocessor").default;
 
 export default defineConfig({
-  projectId: 'ksrcar',
+  projectId: 'kkfm4d',
   e2e: {
     baseUrl: "http://localhost:3000",
     experimentalStudio: true,
@@ -15,4 +15,8 @@ export default defineConfig({
     },
     specPattern: "**/*.feature",
   },
+  // m{
+  //   projectId: "kkfm4d",
+  //   // The rest of the Cypress config options go here...
+  // },
 });
