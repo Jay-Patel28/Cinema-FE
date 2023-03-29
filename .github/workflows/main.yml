@@ -26,12 +26,9 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 1200
           browser: chrome
-          record: true
-          parallel: true
+          # record: true
+          # parallel: true
           # group: 'UI - Chrome'
           spec: cypress/integration/*.feature
           # config-file: Cinema-FE/cypress-config.ts
-        env:
-          # For recording and parallelization to work you must set your CYPRESS_RECORD_KEY
-          # in GitHub repo → Settings → Secrets → Actions
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+       
