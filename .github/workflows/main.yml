@@ -18,6 +18,12 @@ jobs:
 
       - run: node -v
 
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
+
       - name: 'Cypress Tests - Chrome'
         uses: cypress-io/github-action@v5 # use the explicit version number
         with:
@@ -26,22 +32,17 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 1200F
           browser: chrome
+          build: npm run build
           # record: true
           # parallel: true
           # group: 'UI - Chrome'
           spec: cypress/integration/*.feature
           # config-file: Cinema-FE/cypress-config.ts
 
-      - name: Download the build folders
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: build
-
-      # # Here, we are going to use the APIs of Xray to report the test result.
-      # # The first API call is made to get an Xray token.
-      # # You will require an Xray client id and client secret to make this API call. Your Jira site admin can generate them.
-      # # Once you have them, store them in the GitHub secrets. You will require a client id and client secret for the same.
+      # Here, we are going to use the APIs of Xray to report the test result.
+      # The first API call is made to get an Xray token.
+      # You will require an Xray client id and client secret to make this API call. Your Jira site admin can generate them.
+      # Once you have them, store them in the GitHub secrets. You will require a client id and client secret for the same.
       # - name: Get XRay Token
       #   id: tokenRequest
       #   uses: fjogeleit/http-request-action@v1
