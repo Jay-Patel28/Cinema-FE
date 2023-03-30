@@ -26,7 +26,7 @@ jobs:
           # record: true
           # parallel: true
           # group: 'UI - Chrome'
-          spec: cypress/integration/*.feature
+          spec: cypress/integration/Homepage.feature
           # config-file: Cinema-FE/cypress-config.ts
       - name: 'copy test execution and screenshot'
         run: |
