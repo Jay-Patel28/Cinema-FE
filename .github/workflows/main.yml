@@ -6,24 +6,19 @@ on:
 jobs:
   Cypress-Test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout GitCode
         uses: actions/checkout@v2
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 16.14.2
-
       - run: node -v
-
       - name: Download the build folders
         uses: actions/download-artifact@v3
         with:
           name: build
           path: build
-
       - name: 'Cypress Tests - Chrome'
         uses: cypress-io/github-action@v5 # use the explicit version number
         with:
@@ -38,7 +33,20 @@ jobs:
           # group: 'UI - Chrome'
           spec: cypress/integration/*.feature
           # config-file: Cinema-FE/cypress-config.ts
-
+      - name: 'copy test execution and screenshot'
+        run: |
+          mkdir public
+          cp -r cypress/videos public/videos
+          cp -r cypress/screenshot public/screenshot
+      - name: Merge test report
+        run: npm run combine:report
+      - name: Generate report
+        run: npm run generate:report
+      - name: Deploy report
+        uses: peaceiris/actions-gh-pages@v3
+        with: 
+          github_token: ${{secrets.TOKEN}}
+          publish_dir: ./public      
       # Here, we are going to use the APIs of Xray to report the test result.
       # The first API call is made to get an Xray token.
       # You will require an Xray client id and client secret to make this API call. Your Jira site admin can generate them.
