@@ -24,11 +24,32 @@ jobs:
           # install: false # we have already installed all dependencies above
           start: npm run start
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 1200
+          wait-on-timeout: 1200F
           browser: chrome
           # record: true
           # parallel: true
           # group: 'UI - Chrome'
           spec: cypress/integration/*.feature
           # config-file: Cinema-FE/cypress-config.ts
-       
+
+      - name: 'Upload reports - Chrome'
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-execution-reports
+          path: cypress/reports/html
+          retention-days: 30
+
+      # # Here, we are going to use the APIs of Xray to report the test result.
+      # # The first API call is made to get an Xray token.
+      # # You will require an Xray client id and client secret to make this API call. Your Jira site admin can generate them.
+      # # Once you have them, store them in the GitHub secrets. You will require a client id and client secret for the same.
+      # - name: Get XRay Token
+      #   id: tokenRequest
+      #   uses: fjogeleit/http-request-action@v1
+      #   with:
+      #     url: 'https://xray.cloud.getxray.app/api/v1/authenticate'
+      #     method: 'POST'
+      #     customHeaders: '{"Content-Type": "application/json"}'
+      #     data: '{"client_id":"${{ secrets.REDPEN_XRAY_CLIENT_ID }}","client_secret":"${{ secrets.REDPEN_XRAY_CLIENT_SECRET }}"}'
+      #     timeout: 30000
