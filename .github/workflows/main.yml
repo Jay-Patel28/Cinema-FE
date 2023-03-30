@@ -37,7 +37,7 @@ jobs:
         if: always()
         with:
           name: cypress-execution-reports
-          path: cypress/reports/html
+          path: cypress/downloads
           retention-days: 30
 
       # # Here, we are going to use the APIs of Xray to report the test result.
