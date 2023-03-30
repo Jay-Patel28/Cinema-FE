@@ -32,13 +32,11 @@ jobs:
           spec: cypress/integration/*.feature
           # config-file: Cinema-FE/cypress-config.ts
 
-      - name: 'Upload reports - Chrome'
-        uses: actions/upload-artifact@v3
-        if: always()
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
         with:
-          name: cypress-execution-reports
-          path: cinema-FE/cypress/downloads
-          retention-days: 30
+          name: build
+          path: build
 
       # # Here, we are going to use the APIs of Xray to report the test result.
       # # The first API call is made to get an Xray token.
