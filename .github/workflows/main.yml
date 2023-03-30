@@ -14,11 +14,6 @@ jobs:
         with:
           node-version: 16.14.2
       - run: node -v
-      - name: Download the build folders
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: build
       - name: 'Cypress Tests - Chrome'
         uses: cypress-io/github-action@v5 # use the explicit version number
         with:
