@@ -47,7 +47,8 @@
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "cy": "cypress open"
+    "cy": "cypress open",
+    "combine:report": "node combine-report.js"
   },
   "eslintConfig": {
     "extends": [
