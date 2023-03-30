@@ -30,7 +30,7 @@ jobs:
           # config-file: Cinema-FE/cypress-config.ts
       - name: 'copy test execution and screenshot'
         run: |
-          mkdir public
+          # mkdir public
           cp -r cypress/videos public/videos
           cp -r cypress/screenshot public/screenshot
       - name: Merge test report
