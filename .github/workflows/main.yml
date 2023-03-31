@@ -42,7 +42,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with: 
           github_token: ${{secrets.TOKEN}}
-          publish_dir: ./docs      
+          publish_dir: ./public      
       # Here, we are going to use the APIs of Xray to report the test result.
       # The first API call is made to get an Xray token.
       # You will require an Xray client id and client secret to make this API call. Your Jira site admin can generate them.
