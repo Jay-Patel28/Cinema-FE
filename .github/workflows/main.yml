@@ -30,7 +30,7 @@ jobs:
           # config-file: Cinema-FE/cypress-config.ts
 
       - name: Upload report to JIRA
-        uses: atlassian/gajira-upload-report@v2
+        uses: automationwizards/jira-create-issue
         with:
           issue-key: RT-4296
           report-type: cypress
