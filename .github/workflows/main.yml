@@ -14,27 +14,25 @@ jobs:
         with:
           node-version: 16.14.2
       - run: node -v
+      - name: Install Dependencies
+        run: npm install
       - name: 'Cypress Tests - Chrome'
         uses: cypress-io/github-action@v5 # use the explicit version number
         continue-on-error: true # continue workflow even if some tests fail
         with:
-          # install: false # we have already installed all dependencies above
           start: npm run start
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 1200
           browser: chrome
-          # record: true
-          # parallel: true
-          # group: 'UI - Chrome'
-          # run: npm cypress open
           spec: 'cypress/integration/*.feature'
-      # - name: Merge Mochawesome reports
-      #   run: npx mochawesome-merge cypress/reports/mochawesome/*.json > cypress/reports/mochawesome/report.json
-      - name: Generate Mochawesome HTML report
-        run: npm run cy:report
+          report: true
+          reporter: mocha-junit-reporter
+          reporterOptions: >
+            mochaFile=cypress/results/junit/test-results.[hash].xml
+            toConsole=true
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
           name: Test Results
           path: |
-            cypress/
+            cypress/results/junit/
