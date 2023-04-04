@@ -22,7 +22,7 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 1200
           browser: chrome
-          # record: true
+          record: true
           # parallel: true
           # group: 'UI - Chrome'
           run: npx cypress-tags run -e 'TAGS=@SmokeTest' --record
