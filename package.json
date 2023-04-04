@@ -29,6 +29,7 @@
     "jest-mock-axios": "^4.7.0-beta",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "multiple-cucumber-html-reporter": "^3.3.0",
     "notistack": "^2.0.5",
     "npm": "^8.19.2",
     "process": "^0.11.10",
@@ -53,7 +54,7 @@
     "cy": "cypress open",
     "combine:report": "node combine-report.js",
     "generate:report": "node generate-report.js",
-    "cy:report": "node ./cypress/report.js"
+    "cy:report": "node cypress/report.js"
   },
   "eslintConfig": {
     "extends": [
