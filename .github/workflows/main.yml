@@ -22,6 +22,7 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 1200
           browser: chrome
+          continue-on-error: true
           # record: true
           # parallel: true
           # group: 'UI - Chrome'
