@@ -30,16 +30,11 @@ jobs:
       # - name: Merge Mochawesome reports
       #   run: npx mochawesome-merge cypress/reports/mochawesome/*.json > cypress/reports/mochawesome/report.json
       - name: Generate Mochawesome HTML report
-        run: npx marge cypress/reports/mochawesome/report.json -o cypress/reports/mochawesome
+        run: npx cypress cy:report
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
           name: Test Results
           path: |
-            cypress/videos/*.mp4
-            cypress/screenshots/*.png
-            cypress/reports/junit/*.xml
-            cypress/reports/mochawesome/*.html
-            cypress/reports/mochawesome/*.js
-            cypress/reports/mochawesome/*.css
+            cypress/
 
