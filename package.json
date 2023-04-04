@@ -52,7 +52,8 @@
     "eject": "react-scripts eject",
     "cy": "cypress open",
     "combine:report": "node combine-report.js",
-    "generate:report": "node generate-report.js"
+    "generate:report": "node generate-report.js",
+    "cy:report": "node ./cypress/report.js"
   },
   "eslintConfig": {
     "extends": [
