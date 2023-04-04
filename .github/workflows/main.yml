@@ -25,4 +25,4 @@ jobs:
           # record: true
           # parallel: true
           # group: 'UI - Chrome'
-          tag: '@SmokeTest'
+          run: npx cypress-tags run -e 'TAGS=@SmokeTest' --record
