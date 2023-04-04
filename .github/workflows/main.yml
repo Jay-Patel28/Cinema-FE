@@ -32,6 +32,13 @@ jobs:
       #   run: npx mochawesome-merge cypress/reports/mochawesome/*.json > cypress/reports/mochawesome/report.json
       - name: Generate Mochawesome HTML report
         run: npm run cy:report
+      - name: Check test failures
+        run: |
+          num_failures=$(grep -o 'failed".*' cypress/report.json | wc -l)
+          if [[ "$num_failures" -gt 10 ]]; then
+            echo "More than 10 tests failed. Failing job."
+            exit 1
+          fi
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
