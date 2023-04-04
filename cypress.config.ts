@@ -22,9 +22,10 @@ export default defineConfig({
       reportDir: "cypress/reports/mochawesome",
       reportFilename: "report",
       quiet: true,
-      overwrite: false,
-      html: false,
+      overwrite: true,
+      html: true,
       json: true,
+      css: true,
     },
     junitReporterOptions: {
       mochaFile: "cypress/reports/junit/test-results-[hash].xml",
