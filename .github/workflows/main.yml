@@ -26,9 +26,6 @@ jobs:
           # parallel: true
           # group: 'UI - Chrome'
           # run: npm cypress open
-          run: npm run cypress:run
-          env:
-            CI: true
       - name: Merge Mochawesome reports
         run: npx mochawesome-merge cypress/reports/mochawesome/*.json > cypress/reports/mochawesome/report.json
       - name: Generate Mochawesome HTML report
