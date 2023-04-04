@@ -22,7 +22,7 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 1200
           browser: chrome
-          continue-on-error: true
+          continue-on-error: true # continue workflow even if some tests fail
           # record: true
           # parallel: true
           # group: 'UI - Chrome'
@@ -38,4 +38,3 @@ jobs:
           name: Test Results
           path: |
             cypress/
-
