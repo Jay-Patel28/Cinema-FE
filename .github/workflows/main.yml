@@ -27,10 +27,10 @@ jobs:
           # group: 'UI - Chrome'
           # run: npm cypress open
           spec: 'cypress/integration/Homepage.feature'
-      # - name: Merge Mochawesome reports
-      #   run: npx mochawesome-merge cypress/reports/mochawesome/*.json > cypress/reports/mochawesome/report.json
       - name: Generate Mochawesome HTML report
         run: npx marge cypress/reports/mochawesome/report.json -o cypress/reports/mochawesome
+      - name: Merge Mochawesome reports
+        run: npx mochawesome-merge cypress/reports/mochawesome/*.json > cypress/reports/mochawesome/report.json
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
