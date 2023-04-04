@@ -30,6 +30,8 @@ jobs:
           reporterOptions: >
             mochaFile=cypress/results/junit/test-results.[hash].xml
             toConsole=true
+      - name: Generate JUnit HTML report
+        run: npm run cy:report:junit
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:

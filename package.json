@@ -54,7 +54,8 @@
     "cy": "cypress open",
     "combine:report": "node combine-report.js",
     "generate:report": "node generate-report.js",
-    "cy:report": "node cypress/report.js"
+    "cy:report": "node cypress/report.js",
+    "cy:report:junit": "mocha-junit-reporter --reporter-options mochaFile=cypress/results/junit/test-results.[hash].xml --reporter-options toConsole=true cypress/results/junit/*.xml"
   },
   "eslintConfig": {
     "extends": [
