@@ -15,10 +15,12 @@ export default defineConfig({
     },
     specPattern: "**/*.feature",
   },
-  reporter: 'junit',
-  reporterOptions: {
-    mochaFile: 'results/my-test-output-[hash].xml',
-  },
+    reporter: "mocha-junit-reporter",
+    reporterOptions: {
+      mochaFile: "cypress/results/junit/test-results.[hash].xml",
+      toConsole: true
+    }
+  
   // m{
   //   projectId: "kkfm4d",
   //   // The rest of the Cypress config options go here...
