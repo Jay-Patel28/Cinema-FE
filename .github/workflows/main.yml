@@ -18,6 +18,7 @@ jobs:
         uses: cypress-io/github-action@v5 # use the explicit version number
         continue-on-error: true # continue workflow even if some tests fail
         with:
+          command:  npx cypress run --env TAGS=@SmokeTest --headed
           start: npm run start
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 1200
