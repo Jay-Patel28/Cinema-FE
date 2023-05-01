@@ -24,11 +24,11 @@ jobs:
           wait-on-timeout: 1200
           browser: chrome
           spec: 'cypress/integration/*.feature'
-          report: true
-      - name: Generate JUnit HTML report
-        run: |
-          npm install -g junit-viewer
-          junit-viewer --results=cypress/results/junit/*.xml --save=cypress/results/junit/report.html
+          # report: true
+      # - name: Generate JUnit HTML report
+      #   run: |
+      #     npm install -g junit-viewer
+      #     junit-viewer --results=cypress/results/junit/*.xml --save=cypress/results/junit/report.html
       - name: Upload test results
         uses: actions/upload-artifact@v2
         with:
