@@ -1,7 +1,7 @@
 Feature: HomePage
     I want to see that baseurl lead to Homepage. Moreover, I 
     want to confirm that HomePage displays the Hot Release Show.
-
+@SmokeTest
     Scenario: BaseUrl should lead to HomePage
         Given User navigate to the Website
         When User click on the Title
@@ -15,6 +15,7 @@ Feature: HomePage
         Given User navigate to the Website 
         Then User should see "Actors" link
 
+@SmokeTest
     Scenario: User should see Movies page link on HomePage 
         Given User navigate to the Website
         Then User should see "Movies" link

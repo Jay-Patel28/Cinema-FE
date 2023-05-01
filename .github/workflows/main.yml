@@ -1,0 +1,37 @@
+on:
+  push
+
+jobs:
+  Cypress-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitCode
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+      - run: node -v
+      - name: Install Dependencies
+        run: npm install
+      - name: 'Cypress Tests - Chrome'
+        uses: cypress-io/github-action@v5 # use the explicit version number
+        continue-on-error: true # continue workflow even if some tests fail
+        with:
+          command:  npx cypress run --env TAGS=@SmokeTest --headed
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 1200
+          browser: chrome
+          spec: 'cypress/integration/*.feature'
+          # report: true
+      # - name: Generate JUnit HTML report
+      #   run: |
+      #     npm install -g junit-viewer
+      #     junit-viewer --results=cypress/results/junit/*.xml --save=cypress/results/junit/report.html
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test Results
+          path: |
+            cypress/results/junit/
